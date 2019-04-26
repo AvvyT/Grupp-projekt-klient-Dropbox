@@ -19,5 +19,4 @@ const Display = (props) => {
     </div>
   );
 };
-
 export default Display;

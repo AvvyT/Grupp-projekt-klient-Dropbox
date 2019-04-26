@@ -1,5 +1,6 @@
 import React from "react";
-import Test from "./components/Test";
+import Container from "./components/Container";
+import { Route } from "react-router-dom";
 const mainDivStyle = {
   flex: 1,
   width: "100%",
@@ -7,12 +8,11 @@ const mainDivStyle = {
   flexDirection: "column"
 };
 const App = (props) => {
-  console.log(props.name);
   return (
     <>
       <div style={mainDivStyle}>
-        <h1>user : {props.name}</h1>
-        <Test />
+        {/*<Route path="/login" exact component={Login} />*/}
+        <Route path="" exact component={Container} />
       </div>
     </>
   );

@@ -25,8 +25,21 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
-
+thead {
+  overflow: scroll;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+tbody {
+  overflow: scroll;
+}
 td,
 th {
   border-bottom: 1px solid #dddddd88;
@@ -34,9 +47,29 @@ th {
   border-right: none;
   text-align: left;
   padding: 15px;
+  flex: 1 0 0;
 }
 td {
   border: none !important;
+}
+td:last-child,
+th:last-child {
+  text-align: right;
+  padding-right: 20px;
+}
+td:first-child,
+th:first-child {
+  flex: 4 0;
+  width: 300px;
+}
+td:nth-child(2),
+th:nth-child(2) {
+  flex: 3 0;
+  width: 300px;
+}
+tr {
+  display: flex;
+  justify-content: space-evenly;
 }
 .active {
   color: #007ee5;
