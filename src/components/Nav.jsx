@@ -1,31 +1,19 @@
 import React from "react";
-const ContainerDivStyle = {
-  flex: 1,
-  height: "100%",
-  marginRight: "10px",
-  display: "flex",
-  flexDirection: "column"
-};
-const listStyle = {
-  flex: 9,
-  listStyle: "none"
-};
-const listItemStyle = {
-  padding: "10px"
-};
+import { Link } from "react-router-dom";
+import style from "./css/main.module.css";
 const Nav = (props) => {
   return (
-    <div style={ContainerDivStyle}>
+    <div className={style.ContainerDivStyle}>
       <h4 style={{ padding: 10, textAlign: "left", color: "#007EE5", flex: 1 }}>
         Files
       </h4>
-      <ul style={listStyle}>
-        <li style={listItemStyle} className="active">
-          My Files
+      <ul className={style.listStyle}>
+        <li className={style.listItemStyle}>
+          <Link to="/files">Home</Link>
         </li>
-        <li style={listItemStyle}> Sharing</li>
-        <li style={listItemStyle}>File request</li>
-        <li style={listItemStyle}>Deleted Files</li>
+        <li className={style.listItemStyle}>
+          <Link to="/favorites">Favorites</Link>
+        </li>
       </ul>
     </div>
   );
