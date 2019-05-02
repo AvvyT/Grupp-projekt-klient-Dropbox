@@ -53,10 +53,12 @@ const FilesTable = ({
       {on && (
         <Portal>
           <Modal on={on} setToggle={setToggle}>
-            <div>
+            <div className={style.deleteFileModal}>
               <h3>delete file {modalData.name}</h3>
-              <button onClick={handleDelete}>delete</button>
-              <button onClick={() => setToggle(!on)}>cancel</button>
+              <div className={style.deleteFileModalButtons}>
+                <button onClick={handleDelete}>delete</button>
+                <button onClick={() => setToggle(!on)}>cancel</button>
+              </div>
             </div>
           </Modal>
         </Portal>
