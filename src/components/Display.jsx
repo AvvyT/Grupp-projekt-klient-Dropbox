@@ -7,7 +7,6 @@ import Favorites from "./Favorites";
 import TopNav from "./TopNav";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
-
 /* eslint-disable no-use-before-define */
 
 const Display = (props) => {

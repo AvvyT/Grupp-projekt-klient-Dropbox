@@ -12,8 +12,10 @@ const FilesTable = ({
   children,
   FetchPath
 }) => {
-  const [on, setToggle] = useState(false);
+  const [deleteOn, setDeleteToggle] = useState(false);
+  const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
+  const [toPath, setToPath] = useState("");
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -27,7 +29,6 @@ const FilesTable = ({
     dbx
       .filesDownload({ path: id })
       .then(function(response) {
-        console.log(response);
         var blob = response.fileBlob;
         var reader = new window.FileReader();
         reader.readAsDataURL(blob);
@@ -45,19 +46,61 @@ const FilesTable = ({
   const handleDelete = () => {
     dbx
       .filesDelete({ path: modalData.id })
-      .then(() => setToggle(!on))
-      .then(() => FetchPath());
+      .then(() => setDeleteToggle(!deleteOn))
+      .then(() => FetchPath())
+      .then(() => {
+        setModalDate("");
+        setDeleteToggle(!deleteOn);
+      });
+  };
+  const handleMove = () => {
+    dbx
+      .filesMove({
+        from_path: modalData.from_path,
+        to_path: toPath + "/" + modalData.name,
+        allow_shared_folder: false,
+        autorename: true,
+        allow_ownership_transfer: false
+      })
+      .then((response) => console.log(response))
+      .then(() => FetchPath())
+      .then(() => {
+        setModalDate("");
+        setMoveToggle(!moveOn);
+      });
   };
   return (
     <>
-      {on && (
+      {deleteOn && (
         <Portal>
-          <Modal on={on} setToggle={setToggle}>
+          <Modal on={deleteOn} setToggle={setDeleteToggle}>
             <div className={style.deleteFileModal}>
               <h3>delete file {modalData.name}</h3>
               <div className={style.deleteFileModalButtons}>
                 <button onClick={handleDelete}>delete</button>
-                <button onClick={() => setToggle(!on)}>cancel</button>
+                <button onClick={() => setDeleteToggle(!deleteOn)}>
+                  cancel
+                </button>
+              </div>
+            </div>
+          </Modal>
+        </Portal>
+      )}
+      {moveOn && (
+        <Portal>
+          <Modal on={moveOn} setToggle={setMoveToggle}>
+            <div className={style.deleteFileModal}>
+              <h3>move file {modalData.name}</h3>
+              <h4>from :{modalData.from_path}</h4>
+              <h4>to : </h4>
+              <input
+                onChange={(e) => setToPath(e.target.value)}
+                value={toPath}
+                placeholder="inter path"
+              />
+              <div className={style.deleteFileModalButtons}>
+                <button onClick={handleMove}>Move</button>
+                <button onClick={() => setMoveToggle(!moveOn)}>cancel</button>
               </div>
             </div>
           </Modal>
@@ -147,13 +190,28 @@ const FilesTable = ({
                                     </span>
                                   )}
                                 </button>
+                                <button
+                                  className={style.deleteIcon}
+                                  onClick={() => {
+                                    setModalDate({
+                                      id: file.id,
+                                      name: file.name,
+                                      from_path: file.path_lower
+                                    });
+                                    setMoveToggle(!moveOn);
+                                  }}
+                                >
+                                  <span role="img" aria-label="delete">
+                                    ▶️
+                                  </span>
+                                </button>
                               </>
                             )}
                             <button
                               className={style.deleteIcon}
                               onClick={() => {
                                 setModalDate({ id: file.id, name: file.name });
-                                setToggle(!on);
+                                setDeleteToggle(!deleteOn);
                               }}
                             >
                               <span role="img" aria-label="delete">

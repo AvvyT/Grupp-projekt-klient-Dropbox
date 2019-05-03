@@ -112,6 +112,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   position: relative;
 }
 .deleteFileModalButtons {
@@ -170,5 +171,8 @@
   border: none;
   background: none;
   outline: none;
+}
+.buttonsDiv {
+  width: 100px;
 }
 /* button style end*/
