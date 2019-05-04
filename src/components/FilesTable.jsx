@@ -2,20 +2,21 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
-import Portal from "./Portal";
-import Modal from "./Modal";
+import DeleteModal from "./Modals/DeleteModal";
+import MoveModal from "./Modals/MoveModal";
+import Options from "./Options";
 const FilesTable = ({
   files,
   storage,
   setStorage,
   location,
   children,
-  FetchPath
+  FetchPath,
+  favorites
 }) => {
   const [deleteOn, setDeleteToggle] = useState(false);
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
-  const [toPath, setToPath] = useState("");
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -53,17 +54,18 @@ const FilesTable = ({
         setDeleteToggle(!deleteOn);
       });
   };
-  const handleMove = () => {
+  const handleMove = (to) => {
+    console.log(to);
     dbx
       .filesMove({
         from_path: modalData.from_path,
-        to_path: toPath + "/" + modalData.name,
+        to_path: to + "/" + modalData.name,
         allow_shared_folder: false,
         autorename: true,
         allow_ownership_transfer: false
       })
       .then((response) => console.log(response))
-      .then(() => FetchPath())
+      .then(() => FetchPath(to))
       .then(() => {
         setModalDate("");
         setMoveToggle(!moveOn);
@@ -72,39 +74,20 @@ const FilesTable = ({
   return (
     <>
       {deleteOn && (
-        <Portal>
-          <Modal on={deleteOn} setToggle={setDeleteToggle}>
-            <div className={style.deleteFileModal}>
-              <h3>delete file {modalData.name}</h3>
-              <div className={style.deleteFileModalButtons}>
-                <button onClick={handleDelete}>delete</button>
-                <button onClick={() => setDeleteToggle(!deleteOn)}>
-                  cancel
-                </button>
-              </div>
-            </div>
-          </Modal>
-        </Portal>
+        <DeleteModal
+          name={modalData.name}
+          deleteOn={deleteOn}
+          setDeleteToggle={setDeleteToggle}
+          handleDelete={handleDelete}
+        />
       )}
       {moveOn && (
-        <Portal>
-          <Modal on={moveOn} setToggle={setMoveToggle}>
-            <div className={style.deleteFileModal}>
-              <h3>move file {modalData.name}</h3>
-              <h4>from :{modalData.from_path}</h4>
-              <h4>to : </h4>
-              <input
-                onChange={(e) => setToPath(e.target.value)}
-                value={toPath}
-                placeholder="inter path"
-              />
-              <div className={style.deleteFileModalButtons}>
-                <button onClick={handleMove}>Move</button>
-                <button onClick={() => setMoveToggle(!moveOn)}>cancel</button>
-              </div>
-            </div>
-          </Modal>
-        </Portal>
+        <MoveModal
+          name={modalData.name}
+          moveOn={moveOn}
+          setMoveToggle={setMoveToggle}
+          handleMove={handleMove}
+        />
       )}
       <div className={style.mainTableDisplayStyle}>
         <div className={style.mainTableDisplayStyle}>
@@ -160,7 +143,43 @@ const FilesTable = ({
                               {file.name}
                             </Link>
                           ) : (
-                            file.name
+                            <>
+                              file.name
+                              <button
+                                onClick={() => handleFavorite(file)}
+                                className={style.favoriteButton}
+                              >
+                                {storage &&
+                                storage.findIndex((x) => x.id === file.id) !==
+                                  -1 ? (
+                                  <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                    className={style.favoriteIconOn}
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M16 20.95l-4.944 2.767 1.104-5.558L8 14.312l5.627-.667L16 8.5l2.373 5.145 5.627.667-4.16 3.847 1.104 5.558L16 20.949z"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                    className={style.favoriteIcon}
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M16 18.657l2.138 1.197-.478-2.403 1.799-1.663-2.433-.289L16 13.275l-1.026 2.224-2.433.289 1.799 1.663-.478 2.403L16 18.657zm-4.944 5.06l1.104-5.558L8 14.312l5.627-.667L16 8.5l2.373 5.145 5.627.667-4.16 3.847 1.104 5.558L16 20.949l-4.944 2.768z"
+                                    />
+                                  </svg>
+                                )}
+                              </button>
+                            </>
                           )}
                         </td>
                         <td>{file.server_modified}</td>
@@ -169,55 +188,19 @@ const FilesTable = ({
                             (file.size * 0.000001).toFixed(2) + "MB"}
                         </td>
                         <td>
-                          <div className={style.buttonsDiv}>
-                            {file[".tag"] !== "folder" && (
-                              <>
-                                <button onClick={() => downloadFile(file.id)}>
-                                  <span role="img" aria-label="download">
-                                    🔽
-                                  </span>
-                                </button>
-                                <button onClick={() => handleFavorite(file)}>
-                                  {storage &&
-                                  storage.findIndex((x) => x.id === file.id) !==
-                                    -1 ? (
-                                    <span role="img" aria-label="favorite">
-                                      ❤️
-                                    </span>
-                                  ) : (
-                                    <span role="img" aria-label="favorite">
-                                      ➕
-                                    </span>
-                                  )}
-                                </button>
-                                <button
-                                  className={style.deleteIcon}
-                                  onClick={() => {
-                                    setModalDate({
-                                      id: file.id,
-                                      name: file.name,
-                                      from_path: file.path_lower
-                                    });
-                                    setMoveToggle(!moveOn);
-                                  }}
-                                >
-                                  <span role="img" aria-label="delete">
-                                    ▶️
-                                  </span>
-                                </button>
-                              </>
-                            )}
-                            <button
-                              className={style.deleteIcon}
-                              onClick={() => {
-                                setModalDate({ id: file.id, name: file.name });
-                                setDeleteToggle(!deleteOn);
-                              }}
-                            >
-                              <span role="img" aria-label="delete">
-                                ❌
-                              </span>
-                            </button>
+                          <div className={style.listDiv}>
+                            {(!favorites && (
+                              <Options
+                                downloadFile={downloadFile}
+                                file={file}
+                                setModalDate={setModalDate}
+                                setMoveToggle={setMoveToggle}
+                                setDeleteToggle={setDeleteToggle}
+                                moveOn={moveOn}
+                                deleteOn={deleteOn}
+                              />
+                            )) ||
+                              ".."}
                           </div>
                         </td>
                       </tr>

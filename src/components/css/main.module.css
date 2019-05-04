@@ -90,16 +90,22 @@
   vertical-align: middle;
   margin-right: 15px;
 }
-.favoriteIcon {
-  position: absolute;
-  right: 10px;
-  top: 20%;
-  font-weight: 600;
-  font-size: 12px;
+.favoriteButton {
+  background: none;
   border: none;
   outline: none;
-  background: white;
 }
+tr:hover .favoriteIcon {
+  visibility: visible;
+}
+.favoriteIcon {
+  fill: #007ee5;
+  visibility: hidden;
+}
+.favoriteIconOn {
+  fill: #007ee5;
+}
+
 .deleteIcon {
   font-size: 10px;
   border: none;
@@ -135,6 +141,53 @@
   background: #007ee5;
   color: white;
 }
+.listDiv {
+  position: relative;
+}
+.listDiv div {
+  padding: 5px 10px 12px 10px;
+  cursor: pointer;
+  color: #1b2733;
+  background: none;
+  border: 1px solid #c1c7cd;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.listDiv div:hover {
+  color: #007ee5;
+}
+.list {
+  width: 100px;
+  list-style: none;
+  position: absolute;
+  box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
+    0 8px 16px rgba(27, 39, 51, 0.08);
+  border-radius: 4px;
+  font-size: 13px;
+  right: 0px;
+  top: 40px;
+  z-index: 99999;
+  background: #fff;
+}
+.list li {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 16px;
+  font-family: "AtlasGrotesk", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  text-align: left;
+  color: #3d464d;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  border: none;
+}
+
 /* button style flex-start*/
 .uploadButtonStyle {
   padding: 10px 15px;
@@ -172,7 +225,5 @@
   background: none;
   outline: none;
 }
-.buttonsDiv {
-  width: 100px;
-}
+
 /* button style end*/
