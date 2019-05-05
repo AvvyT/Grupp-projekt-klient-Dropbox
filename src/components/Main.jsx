@@ -3,7 +3,7 @@ import { FetchPath, useLocalStorage } from "./functions";
 import FilesTable from "./FilesTable";
 import { DataContext } from "../store";
 
-const Main = ({ location }) => {
+const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
   const { state, dispatch } = useContext(DataContext);
   const { files } = state;
@@ -15,7 +15,8 @@ const Main = ({ location }) => {
   };
   useEffect(
     () => {
-      FetchPath(fetchData, location.pathname.replace("/files", ""));
+      !location.pathname.includes("/move") &&
+        FetchPath(fetchData, location.pathname.replace("/files", ""));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
@@ -29,6 +30,7 @@ const Main = ({ location }) => {
       FetchPath={() =>
         FetchPath(fetchData, location.pathname.replace("/files", ""))
       }
+      history={history}
     >
       {state.files && state.files.length === 0 ? (
         "This folder is empty"

@@ -4,7 +4,7 @@ import Portal from "../Portal";
 const DeleteModal = ({ name, setDeleteToggle, deleteOn, handleDelete }) => {
   return (
     <Portal>
-      <Modal on={deleteOn} setToggle={setDeleteToggle}>
+      <Modal>
         <div>
           <h4>Delete file ?</h4>
           <hr />

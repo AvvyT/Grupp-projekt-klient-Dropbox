@@ -5,8 +5,7 @@ import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
 const Upload = ({ location }) => {
-  const { state, dispatch } = useContext(DataContext);
-  const { files } = state;
+  const { dispatch } = useContext(DataContext);
   const [on, setToggle] = useState(false);
   const fetchData = (data) => {
     dispatch({
@@ -42,7 +41,7 @@ const Upload = ({ location }) => {
       <div className={styles.ContainerDivStyle}>
         <button className={styles.uploadButtonStyle}>Upload Files</button>
         <button onClick={() => setToggle(!on)} className={styles.buttonStyle}>
-          Create folder
+          New folder
         </button>
       </div>
     </>

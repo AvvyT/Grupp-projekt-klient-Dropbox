@@ -6,16 +6,18 @@ import Upload from "./Upload";
 import Favorites from "./Favorites";
 import TopNav from "./TopNav";
 import { dbx } from "./functions";
+import Breadcrumb from "./Breadcrumb";
 import style from "./css/main.module.css";
 /* eslint-disable no-use-before-define */
 
 const Display = (props) => {
   const token = window.localStorage.getItem("token") || null;
   const connectButton = useRef();
+  const authUrl = dbx.getAuthenticationUrl("http://localhost:3000/callback/");
   useEffect(() => {
-    const authUrl = dbx.getAuthenticationUrl("http://localhost:3000/callback/");
     if (!token) connectButton.current.href = authUrl;
-  }, [token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <div className={style.mainDivStyle}>
@@ -29,6 +31,14 @@ const Display = (props) => {
         ) : (
           <>
             <TopNav {...props} />
+            <div className={style.breadcrumb}>
+              <div style={{ flex: 1, marginRight: "25px" }} />
+              <button onClick={() => props.history.goBack()}>
+                <span>&#8592;</span>
+              </button>
+              <Breadcrumb {...props.location} />
+            </div>
+
             <div className={style.containerDivStyle}>
               <Nav {...props} />
               <Switch>

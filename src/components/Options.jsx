@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./css/main.module.css";
+import { Link } from "react-router-dom";
 const Options = ({
   downloadFile,
   file,
@@ -15,7 +16,24 @@ const Options = ({
   return (
     <>
       <div onClick={() => setListToggle(!listOn)} className="listToggleDiv">
-        <span className="listToggleSpan">...</span>
+        <span>
+          <svg
+            className="listToggleSpan"
+            focusable="false"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            role="img"
+          >
+            <g fill="none" fillRule="evenodd">
+              <g fill="#637282">
+                <circle cx="10.5" cy="16.5" r="1.8" />
+                <circle cx="15.5" cy="16.5" r="1.8" />
+                <circle cx="20.5" cy="16.5" r="1.8" />
+              </g>
+            </g>
+          </svg>
+        </span>
       </div>
       {listOn && (
         <ul ref={List} className={style.list}>
@@ -33,13 +51,14 @@ const Options = ({
               setListToggle(!listOn);
             }}
           >
-            Move
+            <Link to="/move">Move</Link>
           </li>
           <li
             onClick={() => {
               setModalDate({
                 id: file.id,
-                name: file.name
+                name: file.name,
+                file: file
               });
               setDeleteToggle(!deleteOn);
               setListToggle(!listOn);

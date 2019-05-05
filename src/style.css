@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: content-box;
   font-family: "AtlasGrotesk", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 html {
   height: 100vh;
@@ -23,7 +24,6 @@ body {
   width: 90%;
 }
 table {
-  font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
   width: 100%;
@@ -36,6 +36,8 @@ table {
 thead {
   overflow: scroll;
   flex-shrink: 0;
+  color: #637282;
+  font-size: 12px;
 }
 tbody {
   overflow: scroll;
@@ -52,6 +54,7 @@ th {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-weight: 500;
 }
 td {
   border: none !important;
@@ -79,6 +82,13 @@ tr {
 }
 .active {
   color: #007ee5;
+}
+#portal .spiner {
+  width: 20px;
+  height: 20px;
+}
+#portal .spiner::after {
+  border-width: 3px;
 }
 
 .spiner {
@@ -130,7 +140,7 @@ a {
 }
 #portal .modalContent {
   width: 630px;
-  height: 230px;
+  min-height: 230px;
   background: white;
   position: relative;
   display: flex;

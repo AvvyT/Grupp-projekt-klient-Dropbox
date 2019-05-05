@@ -6,7 +6,7 @@ const CreateFolder = ({ on, setToggle, handleCreateFolder }) => {
   const input = useRef();
   return (
     <Portal>
-      <Modal on={on} setToggle={setToggle}>
+      <Modal>
         <div>
           <h4>Create Folder</h4>
           <hr />
@@ -17,7 +17,7 @@ const CreateFolder = ({ on, setToggle, handleCreateFolder }) => {
           </div>
           <div>
             <button onClick={() => handleCreateFolder(input.current.value)}>
-              Move
+              Create
             </button>
             <button onClick={() => setToggle(!on)}>Cancel</button>
           </div>

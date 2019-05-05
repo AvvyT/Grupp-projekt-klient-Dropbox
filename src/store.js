@@ -5,10 +5,13 @@ export const DataContext = createContext({});
 export const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_DATA":
-      console.log(action.data);
       return { ...state, files: action.data };
-    case "deleteFile":
-      return;
+    case "DELETE_FILE":
+      let files = [...state.files];
+      return {
+        ...state,
+        files: files.filter((file) => file.id !== action.file.id)
+      };
     case "createFolder":
       return;
     case "downloadFile":

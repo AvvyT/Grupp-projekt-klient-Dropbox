@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
 import DeleteModal from "./Modals/DeleteModal";
 import MoveModal from "./Modals/MoveModal";
 import Options from "./Options";
+import { DataContext } from "../store";
+import { Route, Redirect } from "react-router-dom";
 const FilesTable = ({
   files,
   storage,
@@ -12,11 +14,14 @@ const FilesTable = ({
   location,
   children,
   FetchPath,
-  favorites
+  favorites,
+  history
 }) => {
   const [deleteOn, setDeleteToggle] = useState(false);
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
+  const { dispatch } = useContext(DataContext);
+
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -47,25 +52,29 @@ const FilesTable = ({
   const handleDelete = () => {
     dbx
       .filesDelete({ path: modalData.id })
-      .then(() => setDeleteToggle(!deleteOn))
-      .then(() => FetchPath())
+      .then((res) => {
+        dispatch({ type: "DELETE_FILE", file: res });
+      })
       .then(() => {
-        setModalDate("");
-        setDeleteToggle(!deleteOn);
-      });
+        if (storage.findIndex((x) => x.id === modalData.file.id) === -1) {
+          let newStorage = storage.filter(
+            (index) => index.id !== modalData.file.id
+          );
+          setStorage(newStorage);
+        }
+      })
+      .then(() => setDeleteToggle(!deleteOn))
+      .then(() => setModalDate(""));
   };
-  const handleMove = (to) => {
-    console.log(to);
+  const handleMove = () => {
     dbx
       .filesMove({
         from_path: modalData.from_path,
-        to_path: to + "/" + modalData.name,
+        to_path: location.pathname.replace("/move", "") + "/" + modalData.name,
         allow_shared_folder: false,
         autorename: true,
         allow_ownership_transfer: false
       })
-      .then((response) => console.log(response))
-      .then(() => FetchPath(to))
       .then(() => {
         setModalDate("");
         setMoveToggle(!moveOn);
@@ -81,24 +90,46 @@ const FilesTable = ({
           handleDelete={handleDelete}
         />
       )}
-      {moveOn && (
-        <MoveModal
-          name={modalData.name}
-          moveOn={moveOn}
-          setMoveToggle={setMoveToggle}
-          handleMove={handleMove}
+      {moveOn ? (
+        <Route
+          path="/"
+          render={(props) => (
+            <MoveModal
+              name={modalData.name}
+              moveOn={moveOn}
+              setMoveToggle={setMoveToggle}
+              handleMove={handleMove}
+              {...props}
+            />
+          )}
         />
-      )}
+      ) : location.pathname.includes("/move") ? (
+        <Redirect to={location.pathname.replace("/move", "/files")} />
+      ) : null}
       <div className={style.mainTableDisplayStyle}>
         <div className={style.mainTableDisplayStyle}>
           {files && files.length > 0 ? (
             <table className={style.tableStyle}>
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>
+                    <p>Name</p>
+                  </th>
                   <th>Modified</th>
                   <th>Size</th>
-                  <th>-</th>
+                  <th>
+                    <svg
+                      focusable="false"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      role="img"
+                    >
+                      <g fill="#637282" fillRule="evenodd">
+                        <path d="M6 15h2v2H6zM10 15h8v2h-8zM6 11h2v2H6zM10 11h8v2h-8zM6 7h2v2H6zM10 7h8v2h-8z" />
+                      </g>
+                    </svg>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -144,7 +175,7 @@ const FilesTable = ({
                             </Link>
                           ) : (
                             <>
-                              file.name
+                              {file.name}
                               <button
                                 onClick={() => handleFavorite(file)}
                                 className={style.favoriteButton}
