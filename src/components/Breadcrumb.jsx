@@ -25,7 +25,7 @@ const PureBreadcrumbs = ({ breadcrumbs }) => {
               >
                 {breadcrumb}
               </Link>
-              {index < breadcrumbs.length - 1 && ">"}
+              {index < breadcrumbs.length - 1 && <span>&#62;</span>}
             </div>
           );
         }
