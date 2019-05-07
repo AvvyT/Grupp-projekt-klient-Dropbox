@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
-import Portal from "./Portal";
-import Modal from "./Modal";
+import DeleteModal from "./Modals/DeleteModal";
+import MoveModal from "./Modals/MoveModal";
+import Options from "./Options";
+import { DataContext } from "../store";
+import { Route, Redirect } from "react-router-dom";
+import CopyModal from "./Modals/CopyModal";
 const FilesTable = ({
   files,
   storage,
   setStorage,
   location,
   children,
-  FetchPath
+  FetchPath,
+  favorites,
+  history
 }) => {
-  const [on, setToggle] = useState(false);
+  const [deleteOn, setDeleteToggle] = useState(false);
+  const [CopyOn, setCopyToggle] = useState(false);
+  const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
+  const { dispatch } = useContext(DataContext);
+
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -27,7 +37,6 @@ const FilesTable = ({
     dbx
       .filesDownload({ path: id })
       .then(function(response) {
-        console.log(response);
         var blob = response.fileBlob;
         var reader = new window.FileReader();
         reader.readAsDataURL(blob);
@@ -45,34 +54,117 @@ const FilesTable = ({
   const handleDelete = () => {
     dbx
       .filesDelete({ path: modalData.id })
-      .then(() => setToggle(!on))
-      .then(() => FetchPath());
+      .then((res) => {
+        dispatch({ type: "DELETE_FILE", file: res });
+      })
+      .then(() => {
+        if (storage.findIndex((x) => x.id === modalData.file.id) === -1) {
+          let newStorage = storage.filter(
+            (index) => index.id !== modalData.file.id
+          );
+          setStorage(newStorage);
+        }
+      })
+      .then(() => setDeleteToggle(!deleteOn))
+      .then(() => setModalDate(""));
+  };
+  const handleMove = () => {
+    dbx
+      .filesMove({
+        from_path: modalData.from_path,
+        to_path: location.pathname.replace("/move", "") + "/" + modalData.name,
+        allow_shared_folder: false,
+        autorename: true,
+        allow_ownership_transfer: false
+      })
+      .then(() => {
+        setModalDate("");
+        setMoveToggle(!moveOn);
+      });
+  };
+  const handleCopy = () => {
+    console.log(modalData.from_path);
+    dbx
+      .filesCopy({
+        from_path: modalData.from_path,
+        to_path: location.pathname.replace("/move", "") + "basel",
+        allow_shared_folder: false,
+        autorename: false,
+        allow_ownership_transfer: false
+      })
+      .then(() => {
+        setModalDate("");
+        setCopyToggle(!moveOn);
+      });
   };
   return (
     <>
-      {on && (
-        <Portal>
-          <Modal on={on} setToggle={setToggle}>
-            <div className={style.deleteFileModal}>
-              <h3>delete file {modalData.name}</h3>
-              <div className={style.deleteFileModalButtons}>
-                <button onClick={handleDelete}>delete</button>
-                <button onClick={() => setToggle(!on)}>cancel</button>
-              </div>
-            </div>
-          </Modal>
-        </Portal>
+      {deleteOn && (
+        <DeleteModal
+          name={modalData.name}
+          deleteOn={deleteOn}
+          setDeleteToggle={setDeleteToggle}
+          handleDelete={handleDelete}
+        />
       )}
+      {moveOn ? (
+        <Route
+          path="/"
+          render={(props) => (
+            <MoveModal
+              name={modalData.name}
+              moveOn={moveOn}
+              setMoveToggle={setMoveToggle}
+              handleMove={handleMove}
+              action="move"
+              {...props}
+            />
+          )}
+        />
+      ) : location.pathname.includes("/move") ? (
+        <Redirect to={location.state.currentLocation} />
+      ) : null}
+      {CopyOn ? (
+        <Route
+          path="/"
+          render={(props) => (
+            <CopyModal
+              name={modalData.name}
+              CopyOn={CopyOn}
+              setCopyToggle={setCopyToggle}
+              handleCopy={handleCopy}
+              action="copy"
+              {...props}
+            />
+          )}
+        />
+      ) : location.pathname.includes("/copy") ? (
+        <Redirect to={location.state.currentLocation} />
+      ) : null}
       <div className={style.mainTableDisplayStyle}>
         <div className={style.mainTableDisplayStyle}>
           {files && files.length > 0 ? (
             <table className={style.tableStyle}>
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>
+                    <p>Name</p>
+                  </th>
                   <th>Modified</th>
                   <th>Size</th>
-                  <th>-</th>
+                  <th>
+                    <svg
+                      focusable="false"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      role="img"
+                    >
+                      <g fill="#637282" fillRule="evenodd">
+                        <path d="M6 15h2v2H6zM10 15h8v2h-8zM6 11h2v2H6zM10 11h8v2h-8zM6 7h2v2H6zM10 7h8v2h-8z" />
+                      </g>
+                    </svg>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -117,7 +209,43 @@ const FilesTable = ({
                               {file.name}
                             </Link>
                           ) : (
-                            file.name
+                            <>
+                              {file.name}
+                              <button
+                                onClick={() => handleFavorite(file)}
+                                className={style.favoriteButton}
+                              >
+                                {storage &&
+                                storage.findIndex((x) => x.id === file.id) !==
+                                  -1 ? (
+                                  <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                    className={style.favoriteIconOn}
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M16 20.95l-4.944 2.767 1.104-5.558L8 14.312l5.627-.667L16 8.5l2.373 5.145 5.627.667-4.16 3.847 1.104 5.558L16 20.949z"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 32 32"
+                                    className={style.favoriteIcon}
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M16 18.657l2.138 1.197-.478-2.403 1.799-1.663-2.433-.289L16 13.275l-1.026 2.224-2.433.289 1.799 1.663-.478 2.403L16 18.657zm-4.944 5.06l1.104-5.558L8 14.312l5.627-.667L16 8.5l2.373 5.145 5.627.667-4.16 3.847 1.104 5.558L16 20.949l-4.944 2.768z"
+                                    />
+                                  </svg>
+                                )}
+                              </button>
+                            </>
                           )}
                         </td>
                         <td>{file.server_modified}</td>
@@ -126,40 +254,22 @@ const FilesTable = ({
                             (file.size * 0.000001).toFixed(2) + "MB"}
                         </td>
                         <td>
-                          <div className={style.buttonsDiv}>
-                            {file[".tag"] !== "folder" && (
-                              <>
-                                <button onClick={() => downloadFile(file.id)}>
-                                  <span role="img" aria-label="download">
-                                    🔽
-                                  </span>
-                                </button>
-                                <button onClick={() => handleFavorite(file)}>
-                                  {storage &&
-                                  storage.findIndex((x) => x.id === file.id) !==
-                                    -1 ? (
-                                    <span role="img" aria-label="favorite">
-                                      ❤️
-                                    </span>
-                                  ) : (
-                                    <span role="img" aria-label="favorite">
-                                      ➕
-                                    </span>
-                                  )}
-                                </button>
-                              </>
-                            )}
-                            <button
-                              className={style.deleteIcon}
-                              onClick={() => {
-                                setModalDate({ id: file.id, name: file.name });
-                                setToggle(!on);
-                              }}
-                            >
-                              <span role="img" aria-label="delete">
-                                ❌
-                              </span>
-                            </button>
+                          <div className={style.listDiv}>
+                            {(!favorites && (
+                              <Options
+                                downloadFile={downloadFile}
+                                file={file}
+                                setModalDate={setModalDate}
+                                setMoveToggle={setMoveToggle}
+                                setDeleteToggle={setDeleteToggle}
+                                setCopyToggle={setCopyToggle}
+                                CopyOn={CopyOn}
+                                moveOn={moveOn}
+                                deleteOn={deleteOn}
+                                location={location}
+                              />
+                            )) ||
+                              ".."}
                           </div>
                         </td>
                       </tr>

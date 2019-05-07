@@ -10,6 +10,7 @@ const Favorites = ({ location }) => {
       location={location}
       setStorage={setFiles}
       storage={files}
+      favorites={true}
     >
       <p>no favorites</p>
     </FilesTable>
