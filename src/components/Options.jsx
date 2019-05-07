@@ -8,7 +8,10 @@ const Options = ({
   setMoveToggle,
   setDeleteToggle,
   moveOn,
-  deleteOn
+  deleteOn,
+  location,
+  setCopyToggle,
+  CopyOn
 }) => {
   const [listOn, setListToggle] = useState(false);
   const List = useRef();
@@ -51,7 +54,34 @@ const Options = ({
               setListToggle(!listOn);
             }}
           >
-            <Link to="/move">Move</Link>
+            <Link
+              to={{
+                pathname: "/move",
+                state: { currentLocation: location.pathname }
+              }}
+            >
+              Move
+            </Link>
+          </li>
+          <li
+            onClick={() => {
+              setModalDate({
+                id: file.id,
+                name: file.name,
+                from_path: file.path_lower
+              });
+              setCopyToggle(!CopyOn);
+              setListToggle(!listOn);
+            }}
+          >
+            <Link
+              to={{
+                pathname: "/copy",
+                state: { currentLocation: location.pathname }
+              }}
+            >
+              Copy
+            </Link>
           </li>
           <li
             onClick={() => {

@@ -7,6 +7,7 @@ import MoveModal from "./Modals/MoveModal";
 import Options from "./Options";
 import { DataContext } from "../store";
 import { Route, Redirect } from "react-router-dom";
+import CopyModal from "./Modals/CopyModal";
 const FilesTable = ({
   files,
   storage,
@@ -18,6 +19,7 @@ const FilesTable = ({
   history
 }) => {
   const [deleteOn, setDeleteToggle] = useState(false);
+  const [CopyOn, setCopyToggle] = useState(false);
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
   const { dispatch } = useContext(DataContext);
@@ -80,6 +82,21 @@ const FilesTable = ({
         setMoveToggle(!moveOn);
       });
   };
+  const handleCopy = () => {
+    console.log(modalData.from_path);
+    dbx
+      .filesCopy({
+        from_path: modalData.from_path,
+        to_path: location.pathname.replace("/move", "") + "basel",
+        allow_shared_folder: false,
+        autorename: false,
+        allow_ownership_transfer: false
+      })
+      .then(() => {
+        setModalDate("");
+        setCopyToggle(!moveOn);
+      });
+  };
   return (
     <>
       {deleteOn && (
@@ -99,12 +116,30 @@ const FilesTable = ({
               moveOn={moveOn}
               setMoveToggle={setMoveToggle}
               handleMove={handleMove}
+              action="move"
               {...props}
             />
           )}
         />
       ) : location.pathname.includes("/move") ? (
-        <Redirect to={location.pathname.replace("/move", "/files")} />
+        <Redirect to={location.state.currentLocation} />
+      ) : null}
+      {CopyOn ? (
+        <Route
+          path="/"
+          render={(props) => (
+            <CopyModal
+              name={modalData.name}
+              CopyOn={CopyOn}
+              setCopyToggle={setCopyToggle}
+              handleCopy={handleCopy}
+              action="copy"
+              {...props}
+            />
+          )}
+        />
+      ) : location.pathname.includes("/copy") ? (
+        <Redirect to={location.state.currentLocation} />
       ) : null}
       <div className={style.mainTableDisplayStyle}>
         <div className={style.mainTableDisplayStyle}>
@@ -227,8 +262,11 @@ const FilesTable = ({
                                 setModalDate={setModalDate}
                                 setMoveToggle={setMoveToggle}
                                 setDeleteToggle={setDeleteToggle}
+                                setCopyToggle={setCopyToggle}
+                                CopyOn={CopyOn}
                                 moveOn={moveOn}
                                 deleteOn={deleteOn}
+                                location={location}
                               />
                             )) ||
                               ".."}

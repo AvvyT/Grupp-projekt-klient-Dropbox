@@ -262,6 +262,7 @@ tr:hover .favoriteIcon {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  width: 100%;
 }
 .ModalButtons button {
   padding: 0 16px;
@@ -274,7 +275,7 @@ tr:hover .favoriteIcon {
   border-radius: 4px;
   font-weight: 500;
   line-height: 32px;
-  font-size: 24;
+  font-size: 12px;
 }
 .ModalButtons button:last-child {
   background-color: #0070e0a8;
@@ -296,6 +297,9 @@ tr:hover .favoriteIcon {
 .ModalBodyDiv {
   display: flex;
   align-items: center;
+  flex: 1;
+  width: 100%;
+  text-align: center;
 }
 .ModalBodyDiv img {
   height: 18px;
@@ -330,6 +334,10 @@ tr:hover .favoriteIcon {
 }
 .MoveFolderMainDiv a {
   font-size: 12px;
+}
+.removeFileModalBody {
+  width: 100%;
+  text-align: center;
 }
 .spinerDiv {
   display: flex;
