@@ -84,7 +84,7 @@ const Upload = ({ location }) => {
   return (
     <div className={styles.ContainerDivStyle}>
       <form onSubmit={handleSubmit}>
-        <input type="file"
+        <input type="file" 
           onChange={(e) => setFile(e.target.files[0])} />
         <button className={styles.uploadButtonStyle} type="submit">Upload Files</button>
       </form>

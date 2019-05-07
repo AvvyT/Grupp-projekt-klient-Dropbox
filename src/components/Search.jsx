@@ -8,7 +8,7 @@ import styles from "./css/main.module.css";
 
 
 const Search = () => {
-  const [searchWord, updateSearchWord] = useState(null);
+  const [searchWord, updateSearchWord] = useState('');
 
   // En användare ska kunna söka efter filer och kataloger
   const searchFileOrFolder = () => {
@@ -16,7 +16,7 @@ const Search = () => {
 
     // path in the user's Dropbox to search. Should probably be a folder
 
-    let results = [];
+    // let results = [];
     let path = '';
     // query is For file name and folder searching 
     // starting index within the search results (used for paging)
@@ -37,13 +37,16 @@ const Search = () => {
     e.preventDefault();
 
     searchFileOrFolder();
+    updateSearchWord('');
   }
 
   return (
     <form className={styles.fromStyle} onSubmit={handleSubmit}>
-      <input placeholder="search" className={styles.inputStyle}
-        onChange={(e) => updateSearchWord(e.target.value)} />
-      <input type='submit' className={styles.buttonStyle} value='Search'/>
+      <input placeholder="search" className={styles.inputStyle} value={searchWord}
+        onChange={(e) => {
+          updateSearchWord(e.target.value);
+        }} />
+      <input type='submit' className={styles.uploadButtonStyle} value='Search' />
     </form>
   );
 }
