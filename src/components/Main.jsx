@@ -1,14 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { FetchPath, useLocalStorage } from "./functions";
 import FilesTable from "./FilesTable";
+import { DataContext } from "../store";
 
-const Main = ({ location }) => {
-  const [files, setFiles] = useState([]);
+const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
-  useEffect(() => {
-    FetchPath(setFiles, location.pathname.replace("/files", ""));
+  const { state, dispatch } = useContext(DataContext);
+  const { files } = state;
+  const fetchData = (data) => {
+    dispatch({
+      type: "FETCH_DATA",
+      data
+    });
+  };
+  useEffect(
+    () => {
+      !location.pathname.includes("/move") &&
+        FetchPath(fetchData, location.pathname.replace("/files", ""));
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+    [location]
+  );
   return (
     <FilesTable
       files={files}
@@ -16,10 +28,15 @@ const Main = ({ location }) => {
       setStorage={setStorage}
       location={location}
       FetchPath={() =>
-        FetchPath(setFiles, location.pathname.replace("/files", ""))
+        FetchPath(fetchData, location.pathname.replace("/files", ""))
       }
+      history={history}
     >
-      <div className="spiner" />
+      {state.files && state.files.length === 0 ? (
+        "This folder is empty"
+      ) : (
+        <div className="spiner" />
+      )}
     </FilesTable>
   );
 };

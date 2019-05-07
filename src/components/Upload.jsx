@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { dbx } from "./functions";
 import styles from "./css/main.module.css";
 
 //-- användare kan ladda upp alla-tiper av filer 
+import { FetchPath } from "./functions";
+import { DataContext } from "../store";
+import CreateFolder from "./Modals/CreateFolderModal";
 const Upload = ({ location }) => {
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(null);
+  const { dispatch } = useContext(DataContext);
+  const [on, setToggle] = useState(false);
 
   const uploadFile = () => {
     console.log(file)
@@ -70,28 +75,52 @@ const Upload = ({ location }) => {
     uploadFile()
   }
 
-  const handleAddFolder = () => {
+  const fetchData = (data) => {
+    dispatch({
+      type: "FETCH_DATA",
+      data
+    });
+  };
+
+  const handleCreateFolder = (name) => {
     dbx
-      .filesCreateFolderV2({ path: location.pathname, autorename: true })
-      .then(function (response) {
+      .filesCreateFolder({
+        path: location.pathname.replace("/files", "") + "/" + name,
+        autorename: false
+      })
+      .then(function(response) {
         console.log(response);
       })
-      .catch(function (error) {
+      .then(() => FetchPath(fetchData, location.pathname.replace("/files", "")))
+      .then(() => setToggle(!on))
+      .catch(function(error) {
         console.error(error);
       });
   };
 
   return (
-    <div className={styles.ContainerDivStyle}>
+    <>
+        <div className={styles.ContainerDivStyle}>
       <form onSubmit={handleSubmit}>
         <input type="file" 
           onChange={(e) => setFile(e.target.files[0])} />
         <button className={styles.uploadButtonStyle} type="submit">Upload Files</button>
       </form>
-      <button onClick={handleAddFolder} className={styles.buttonStyle}>
-        Create folder
-      </button>
     </div>
+      {on && (
+        <CreateFolder
+          on={on}
+          setToggle={setToggle}
+          handleCreateFolder={handleCreateFolder}
+        />
+      )}
+      <div className={styles.ContainerDivStyle}>
+        <button className={styles.uploadButtonStyle}>Upload Files</button>
+        <button onClick={() => setToggle(!on)} className={styles.buttonStyle}>
+          New folder
+        </button>
+      </div>
+    </>
   );
 };
 

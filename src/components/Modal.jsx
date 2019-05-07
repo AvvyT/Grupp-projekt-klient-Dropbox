@@ -1,16 +1,9 @@
 import React from "react";
 
-const Modal = ({ children, on, setToggle }) => {
+const Modal = ({ children }) => {
   return (
     <div className="modalContainer">
-      <div className="modalContent">
-        <button className="modalCloseButton" onClick={() => setToggle(!on)}>
-          <span role="img" aria-label="delete">
-            ❌
-          </span>
-        </button>
-        {children}
-      </div>
+      <div className="modalContent">{children}</div>
     </div>
   );
 };
