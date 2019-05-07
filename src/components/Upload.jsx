@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { dbx } from "./functions";
 import styles from "./css/main.module.css";
+
+//-- användare kan ladda upp alla-tiper av filer 
 import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
@@ -14,7 +16,7 @@ const Upload = ({ location }) => {
     const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024;
 
     if (file.size < UPLOAD_FILE_SIZE_LIMIT) { // File is smaller than 150 Mb - use filesUpload API
-      dbx.filesUpload({ path: '/' + file.name, contents: file })
+      dbx.filesUpload({ path: location.pathname.replace('/files', '') + '/' + file.name, contents: file })
         .then((response) => {
           console.log(response);
         })
@@ -44,7 +46,8 @@ const Upload = ({ location }) => {
           // Append part to the upload session
           return acc.then((sessionId) => {
             var cursor = { session_id: sessionId, offset: idx * maxBlob };
-            return dbx.filesUploadSessionAppendV2({ cursor: cursor, close: false, contents: blob }).then(() => sessionId);
+            return dbx.filesUploadSessionAppendV2({ cursor: cursor, close: false, contents: blob })
+            .then(() => sessionId);
           });
         } else {
           // Last chunk of data, close session
@@ -65,7 +68,7 @@ const Upload = ({ location }) => {
     }
     return false;
   }
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //dbx.filesUpload({ path: "/test/", contents: file }).then(res => console.log(res))
@@ -99,7 +102,7 @@ const Upload = ({ location }) => {
     <>
         <div className={styles.ContainerDivStyle}>
       <form onSubmit={handleSubmit}>
-        <input type="file"
+        <input type="file" 
           onChange={(e) => setFile(e.target.files[0])} />
         <button className={styles.uploadButtonStyle} type="submit">Upload Files</button>
       </form>
