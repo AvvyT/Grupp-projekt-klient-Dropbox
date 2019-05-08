@@ -67,12 +67,19 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  border-radius: 20px;
+  border: 1px solid #c1c7cd;
+  overflow: hidden;
 }
 .inputStyle {
   padding: 10px 10px;
   border-radius: 25px;
-  border: 1px solid lightGray;
   width: 100px;
+  border: none;
+  flex: 1;
+}
+.inputStyle:focus {
+  outline: none;
 }
 .listStyle {
   flex: 9;
@@ -190,12 +197,13 @@ tr:hover .favoriteIcon {
 
 /* button style flex-start*/
 .uploadButtonStyle {
-  padding: 10px 15px;
+  padding: 5px 15px;
   border-radius: 5px;
   font-size: 15px;
-  background: #007ee5;
-  color: white;
   border: none;
+  transform: rotate(-45deg);
+  outline: none;
+  background: none;
 }
 .buttonStyle {
   padding: 10px 20px;
@@ -294,6 +302,14 @@ tr:hover .favoriteIcon {
   width: 100%;
   min-height: 100px;
 }
+.createFolderInputDiv {
+  padding: 10px 0;
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .ModalBodyDiv {
   display: flex;
   align-items: center;
@@ -365,4 +381,58 @@ tr:hover .favoriteIcon {
   font-size: 18px;
   outline: none;
   cursor: pointer;
+  background: none;
+}
+.fileContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.fileContainer [type="file"] {
+  cursor: inherit;
+  display: block;
+  font-size: 999px;
+  filter: alpha(opacity=0);
+  min-height: 100%;
+  min-width: 100%;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+}
+.fileContainer {
+  background: #007ee5;
+  border-radius: 5px;
+  color: #fff;
+  padding: 11px 13px;
+  font-size: 13px;
+}
+
+.fileContainer [type="file"] {
+  cursor: pointer;
+}
+.fileContainer span {
+  padding: 25px;
+}
+.searchDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.searchDiv button {
+  margin: 10px;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #c1c7cd;
+  border-radius: 5px;
+  background: none;
+}
+.createFolderInput {
+  padding: 10px;
+  border: 1px solid #c1c7cd;
+  width: 100%;
+  border-radius: 9px;
+  padding: 15px;
 }

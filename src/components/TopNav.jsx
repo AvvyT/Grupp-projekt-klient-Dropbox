@@ -6,7 +6,7 @@ const TopNav = ({ history, location }) => {
   return (
     <div className={style.topNavStyle}>
       <div className={style.logoDivStyle}>
-        <Link to="/files">
+        <Link to="/">
           <img
             className={style.logoImgStyle}
             alt="logo"

@@ -8,7 +8,7 @@ export let dbx = new Dropbox({
 export function FetchPath(cb, path) {
   let tempResponse;
   dbx
-    .filesListFolder({ path })
+    .filesListFolder({ path: path === "/" ? path.replace("/", "") : path })
     .then((res) => {
       return res.entries;
     })
@@ -24,7 +24,6 @@ export function FetchPath(cb, path) {
             }))
         })
         .then((res) => {
-          //setThumbnailRes(res.entries);
           const data = tempResponse.map((file) => {
             if (file[".tag"] !== "folder") {
               return {
@@ -41,6 +40,7 @@ export function FetchPath(cb, path) {
             }
           });
           cb(data);
+          return data;
         });
     });
 }

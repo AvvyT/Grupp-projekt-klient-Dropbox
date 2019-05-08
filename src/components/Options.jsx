@@ -40,9 +40,9 @@ const Options = ({
       </div>
       {listOn && (
         <ul ref={List} className={style.list}>
-          {file[".tag"] !== "folder" && (
-            <li onClick={() => downloadFile(file.id)}>Download</li>
-          )}
+          <li onClick={() => downloadFile(file.id, file.name, file[".tag"])}>
+            Download
+          </li>
           <li
             onClick={() => {
               setModalDate({

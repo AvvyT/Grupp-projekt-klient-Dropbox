@@ -42,6 +42,7 @@ thead {
 tbody {
   overflow: scroll;
   flex: 1;
+  padding: 0 0 200px 0;
 }
 td,
 th {
@@ -64,6 +65,10 @@ th:last-child {
   text-align: right;
   padding-right: 20px;
   justify-content: flex-end;
+}
+button {
+  outline: none;
+  cursor: pointer;
 }
 td:first-child,
 th:first-child {

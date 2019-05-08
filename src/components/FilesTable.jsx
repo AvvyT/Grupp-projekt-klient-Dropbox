@@ -33,22 +33,34 @@ const FilesTable = ({
       setStorage(newStorage);
     }
   };
-  const downloadFile = (id) => {
-    dbx
-      .filesDownload({ path: id })
-      .then(function(response) {
-        var blob = response.fileBlob;
-        var reader = new window.FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = function() {
-          var base64data = reader.result;
-          window.open(base64data);
-        };
-      })
-      .then((res) => {})
-      .catch(function(error) {
-        console.error(error);
-      });
+  const downloadFile = (id, name, type) => {
+    if (type === "file") {
+      dbx
+        .filesDownload({ path: id })
+        .then(function(response) {
+          var URL = window.URL.createObjectURL(response.fileBlob);
+          const tempLink = document.createElement("a");
+          tempLink.href = URL;
+          tempLink.setAttribute("download", name);
+          tempLink.click();
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    } else {
+      dbx
+        .filesDownloadZip({ path: id })
+        .then(function(response) {
+          var URL = window.URL.createObjectURL(response.fileBlob);
+          const tempLink = document.createElement("a");
+          tempLink.href = URL;
+          tempLink.setAttribute("download", name);
+          tempLink.click();
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
     return false;
   };
   const handleDelete = () => {
@@ -82,19 +94,25 @@ const FilesTable = ({
         setMoveToggle(!moveOn);
       });
   };
-  const handleCopy = () => {
-    console.log(modalData.from_path);
+  const handleCopy = (name) => {
+    const extension =
+      modalData.name.indexOf(".") > -1
+        ? "." + modalData.name.replace(/^.*\./, "")
+        : "";
     dbx
       .filesCopy({
         from_path: modalData.from_path,
-        to_path: location.pathname.replace("/move", "") + "basel",
+        to_path:
+          location.pathname.replace("/copy", "") +
+          "/" +
+          (name ? name + extension : modalData.name),
         allow_shared_folder: false,
-        autorename: false,
+        autorename: true,
         allow_ownership_transfer: false
       })
       .then(() => {
         setModalDate("");
-        setCopyToggle(!moveOn);
+        setCopyToggle(!CopyOn);
       });
   };
   return (
@@ -199,15 +217,7 @@ const FilesTable = ({
                             src={thumbnail}
                           />
                           {file[".tag"] === "folder" ? (
-                            <Link
-                              to={
-                                location.pathname +
-                                (location.pathname === "/" ? "" : "/") +
-                                file.name
-                              }
-                            >
-                              {file.name}
-                            </Link>
+                            <Link to={file.path_lower}>{file.name}</Link>
                           ) : (
                             <>
                               {file.name}

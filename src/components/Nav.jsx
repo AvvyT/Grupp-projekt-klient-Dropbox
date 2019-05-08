@@ -9,7 +9,7 @@ const Nav = (props) => {
       </h4>
       <ul className={style.listStyle}>
         <li className={style.listItemStyle}>
-          <Link to="/files">Home</Link>
+          <Link to="">Home</Link>
         </li>
         <li className={style.listItemStyle}>
           <Link to="/favorites">Favorites</Link>

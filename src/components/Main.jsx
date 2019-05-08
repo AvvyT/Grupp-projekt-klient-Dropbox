@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { FetchPath, useLocalStorage } from "./functions";
 import FilesTable from "./FilesTable";
 import { DataContext } from "../store";
+import style from "./css/main.module.css";
 
 const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
@@ -16,7 +17,8 @@ const Main = ({ location, history }) => {
   useEffect(
     () => {
       !location.pathname.includes("/move") &&
-        FetchPath(fetchData, location.pathname.replace("/files", ""));
+        !location.pathname.includes("/copy") &&
+        FetchPath(fetchData, location.pathname);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
@@ -27,13 +29,18 @@ const Main = ({ location, history }) => {
       storage={storage}
       setStorage={setStorage}
       location={location}
-      FetchPath={() =>
-        FetchPath(fetchData, location.pathname.replace("/files", ""))
-      }
+      FetchPath={() => FetchPath(fetchData, location.pathname)}
       history={history}
     >
       {state.files && state.files.length === 0 ? (
-        "This folder is empty"
+        state.searchActive ? (
+          <div className={style.searchDiv}>
+            <p>no similar files or folder</p>
+            <button onClick={() => history.push("/")}>Cancel</button>
+          </div>
+        ) : (
+          "This folder is empty"
+        )
       ) : (
         <div className="spiner" />
       )}
