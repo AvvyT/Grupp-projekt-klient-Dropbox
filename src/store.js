@@ -16,6 +16,21 @@ export const reducer = (state, action) => {
         ...state,
         files: files.filter((file) => file.id !== action.file.id)
       };
+    case "CHANGE_NAME": {
+      let files = [...state.files];
+      const { server_modified, path_lower, path_display, name } = action.file;
+      files.map((file) => {
+        if (file.id === action.id) {
+          file.name = name;
+          file.path_display = path_display;
+          file.path_lower = path_lower;
+          file.server_modified = server_modified;
+          return file;
+        }
+        return file;
+      });
+      return { ...state, files };
+    }
 
     default:
       return state;

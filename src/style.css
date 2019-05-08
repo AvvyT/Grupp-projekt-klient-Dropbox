@@ -21,7 +21,7 @@ body {
   width: 100%;
 }
 #root > div {
-  width: 90%;
+  width: 100%;
 }
 table {
   border-collapse: collapse;

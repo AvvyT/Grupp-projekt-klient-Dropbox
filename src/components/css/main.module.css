@@ -436,3 +436,12 @@ tr:hover .favoriteIcon {
   border-radius: 9px;
   padding: 15px;
 }
+.changeNameInput {
+  padding: 10px;
+  width: 91%;
+  border-radius: 5px;
+  border: 1px solid #c1c7cd;
+}
+.changeNameForm {
+  width: 100%;
+}

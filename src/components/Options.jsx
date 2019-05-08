@@ -7,11 +7,13 @@ const Options = ({
   setModalDate,
   setMoveToggle,
   setDeleteToggle,
+  ToggleNameChanger,
   moveOn,
   deleteOn,
   location,
   setCopyToggle,
-  CopyOn
+  CopyOn,
+  nameOn
 }) => {
   const [listOn, setListToggle] = useState(false);
   const List = useRef();
@@ -82,6 +84,19 @@ const Options = ({
             >
               Copy
             </Link>
+          </li>
+          <li
+            onClick={() => {
+              setModalDate({
+                id: file.id,
+                name: file.name,
+                from_path: file.path_lower
+              });
+              ToggleNameChanger(!nameOn);
+              setListToggle(!listOn);
+            }}
+          >
+            Rename
           </li>
           <li
             onClick={() => {
