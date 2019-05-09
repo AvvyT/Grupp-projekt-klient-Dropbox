@@ -6,6 +6,7 @@ import styles from "./css/main.module.css";
 import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
+
 const Upload = ({ location }) => {
   const [file, setFile] = useState(null);
   const { dispatch } = useContext(DataContext);
@@ -47,7 +48,7 @@ const Upload = ({ location }) => {
           return acc.then((sessionId) => {
             var cursor = { session_id: sessionId, offset: idx * maxBlob };
             return dbx.filesUploadSessionAppendV2({ cursor: cursor, close: false, contents: blob })
-            .then(() => sessionId);
+              .then(() => sessionId);
           });
         } else {
           // Last chunk of data, close session
@@ -88,25 +89,28 @@ const Upload = ({ location }) => {
         path: location.pathname.replace("/files", "") + "/" + name,
         autorename: false
       })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
       })
       .then(() => FetchPath(fetchData, location.pathname.replace("/files", "")))
       .then(() => setToggle(!on))
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   };
 
   return (
     <>
-        <div className={styles.ContainerDivStyle}>
-      <form onSubmit={handleSubmit}>
-        <input type="file" 
-          onChange={(e) => setFile(e.target.files[0])} />
-        <button className={styles.uploadButtonStyle} type="submit">Upload Files</button>
-      </form>
-    </div>
+      <div className={styles.ContainerDivStyle}>
+        <form onSubmit={handleSubmit}>
+          <input type="file"
+            onChange={(e) => setFile(e.target.files[0])} />
+          <button className={styles.uploadButtonStyle} type="submit">
+            Upload Files
+          </button>
+        </form>
+      </div>
+
       {on && (
         <CreateFolder
           on={on}
@@ -114,6 +118,7 @@ const Upload = ({ location }) => {
           handleCreateFolder={handleCreateFolder}
         />
       )}
+
       <div className={styles.ContainerDivStyle}>
         <button className={styles.uploadButtonStyle}>Upload Files</button>
         <button onClick={() => setToggle(!on)} className={styles.buttonStyle}>

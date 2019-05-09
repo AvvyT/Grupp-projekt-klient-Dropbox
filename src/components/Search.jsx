@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import { dbx } from "./functions";
 import styles from "./css/main.module.css";
 
-// Visa sökresultat istället för huvudinnehållet
-// Om en användare klickar på en katalog ska applikationen navigera till den katalogen
-// Om en användare klickar på en fil ska filen laddas ner
-
-
 const Search = () => {
   const [searchWord, updateSearchWord] = useState('');
 
@@ -16,7 +11,6 @@ const Search = () => {
 
     // path in the user's Dropbox to search. Should probably be a folder
 
-    // let results = [];
     let path = '';
     // query is For file name and folder searching 
     // starting index within the search results (used for paging)
@@ -30,7 +24,6 @@ const Search = () => {
       .catch((error) => {
         console.error(error);
       });
-
   }
 
   const handleSubmit = (e) => {
@@ -45,8 +38,7 @@ const Search = () => {
       <input placeholder="search" className={styles.inputStyle} value={searchWord}
         onChange={(e) => {
           updateSearchWord(e.target.value);
-          console.log(searchWord.length);
-          
+          // console.log(searchWord.length);
         }} />
       <input type='submit' className={styles.uploadButtonStyle} value='Search' />
     </form>

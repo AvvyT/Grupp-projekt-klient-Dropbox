@@ -14,7 +14,7 @@ it('renders without crashing', () => {
 });
 
 // -------enzyme wrappar
-it('Check dom-text', () => {
+it('form gets submitted once', () => {
     const wrapper = shallow(<Search />);
     // skapa en mock fun.
     const mockPrevent = jest.fn();
