@@ -1,11 +1,5 @@
 import { useState } from "react";
-import { Dropbox } from "dropbox";
-export let dbx = new Dropbox({
-  accessToken: window.localStorage.getItem("token") || null,
-  clientId: "qwcieudyqiph2un",
-  fetch
-});
-export function FetchPath(cb, path) {
+export function FetchPath(cb, path, dbx) {
   let tempResponse;
   dbx
     .filesListFolder({ path: path === "/" ? path.replace("/", "") : path })

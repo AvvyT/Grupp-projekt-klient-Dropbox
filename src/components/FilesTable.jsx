@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
-import { dbx } from "./functions";
+import React, { useState, useContext } from "react";
+import { dbx } from "./Display";
 import style from "./css/main.module.css";
 import DeleteModal from "./Modals/DeleteModal";
 import MoveModal from "./Modals/MoveModal";
@@ -13,20 +13,14 @@ const FilesTable = ({
   setStorage,
   location,
   children,
-  FetchPath,
-  favorites,
-  history
+  favorites
 }) => {
   const [deleteOn, setDeleteToggle] = useState(false);
   const [CopyOn, setCopyToggle] = useState(false);
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
   const { dispatch } = useContext(DataContext);
-  useEffect(() => {
-    dbx
-      .usersGetAccount({ account_id: localStorage.getItem("account_id") })
-      .then((res) => console.log(res));
-  }, []);
+
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -204,70 +198,66 @@ const FilesTable = ({
         <Redirect to={location.state.currentLocation} />
       ) : null}
       <div className={style.mainTableDisplayStyle}>
-        <div className={style.mainTableDisplayStyle}>
-          {files && files.length > 0 ? (
-            <table className={style.tableStyle}>
-              <thead>
-                <tr>
-                  <th>
-                    <p>Name</p>
-                  </th>
-                  <th>Modified</th>
-                  <th>Size</th>
-                  <th>
-                    <svg
-                      focusable="false"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      role="img"
-                    >
-                      <g fill="#637282" fillRule="evenodd">
-                        <path d="M6 15h2v2H6zM10 15h8v2h-8zM6 11h2v2H6zM10 11h8v2h-8zM6 7h2v2H6zM10 7h8v2h-8z" />
-                      </g>
-                    </svg>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {files
-                  .sort((a, b) => {
-                    if (
-                      (a[".tag"] === "folder" || b[".tag"] === "folder") &&
-                      !(a[".tag"] === b[".tag"])
-                    ) {
-                      return a[".tag"] === "folder" ? -1 : 1;
-                    } else {
-                      return a.name.toLowerCase() < b.name.toLowerCase()
-                        ? -1
-                        : 1;
-                    }
-                  })
-                  .map((file) => (
-                    <File
-                      key={file.id}
-                      file={file}
-                      handleFavorite={handleFavorite}
-                      handleRename={handleRename}
-                      storage={storage}
-                      favorites={favorites}
-                      downloadFile={downloadFile}
-                      setModalDate={setModalDate}
-                      setMoveToggle={setMoveToggle}
-                      setDeleteToggle={setDeleteToggle}
-                      setCopyToggle={setCopyToggle}
-                      CopyOn={CopyOn}
-                      moveOn={moveOn}
-                      deleteOn={deleteOn}
-                      location={location}
-                    />
-                  ))}
-              </tbody>
-            </table>
-          ) : (
-            children
-          )}
-        </div>
+        {files && files.length > 0 ? (
+          <table className={style.tableStyle}>
+            <thead>
+              <tr>
+                <th>
+                  <p>Name</p>
+                </th>
+                <th>Modified</th>
+                <th>Size</th>
+                <th>
+                  <svg
+                    focusable="false"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    role="img"
+                  >
+                    <g fill="#637282" fillRule="evenodd">
+                      <path d="M6 15h2v2H6zM10 15h8v2h-8zM6 11h2v2H6zM10 11h8v2h-8zM6 7h2v2H6zM10 7h8v2h-8z" />
+                    </g>
+                  </svg>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {files
+                .sort((a, b) => {
+                  if (
+                    (a[".tag"] === "folder" || b[".tag"] === "folder") &&
+                    !(a[".tag"] === b[".tag"])
+                  ) {
+                    return a[".tag"] === "folder" ? -1 : 1;
+                  } else {
+                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+                  }
+                })
+                .map((file) => (
+                  <File
+                    key={file.id}
+                    file={file}
+                    handleFavorite={handleFavorite}
+                    handleRename={handleRename}
+                    storage={storage}
+                    favorites={favorites}
+                    downloadFile={downloadFile}
+                    setModalDate={setModalDate}
+                    setMoveToggle={setMoveToggle}
+                    setDeleteToggle={setDeleteToggle}
+                    setCopyToggle={setCopyToggle}
+                    CopyOn={CopyOn}
+                    moveOn={moveOn}
+                    deleteOn={deleteOn}
+                    location={location}
+                  />
+                ))}
+            </tbody>
+          </table>
+        ) : (
+          children
+        )}
       </div>
     </>
   );

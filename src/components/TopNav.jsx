@@ -1,29 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import style from "./css/main.module.css";
-const TopNav = ({ history, location }) => {
+import Search from "./Search";
+
+const TopNav = ({ history, location, userInfo }) => {
+  //console.log(userInfo);
   return (
     <div className={style.topNavStyle}>
-      <div className={style.logoDivStyle}>
-        <Link to="/">
-          <img
-            className={style.logoImgStyle}
-            alt="logo"
-            src="https://cdn.freebiesupply.com/logos/large/2x/dropbox-2-logo-png-transparent.png"
-          />
-        </Link>
+      <div className={style.topNavRight}>
+        <button onClick={() => history.goBack()}>
+          <span>&#8592;</span>
+        </button>
+        <p>Home</p>
       </div>
-      <h1 className={style.titleStyle}>Dropbox</h1>
-
-      <button
-        onClick={() => {
-          window.localStorage.removeItem("token");
-          history.push("/login");
-        }}
-        className={style.connectButtonStyle}
-      >
-        disconnect
-      </button>
+      <div className={style.topNavLeft}>
+        <Search />
+        <button
+          onClick={() => {
+            window.localStorage.removeItem("token");
+            history.push("/login");
+          }}
+          className={style.connectButtonStyle}
+        >
+          disconnect
+        </button>
+      </div>
     </div>
   );
 };

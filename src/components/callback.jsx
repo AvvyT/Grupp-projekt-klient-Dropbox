@@ -15,9 +15,7 @@ const Callback = () => {
   console.log(parseQueryString(window.location.hash.substr(1)).account_id);
   return (
     <div className={style.mainDivStyle}>
-      {!window.location.hash.match(
-        /#(?:access_token)=([\S\s]*?)&/
-      )[1] ? null : (
+      {!parseQueryString(window.location.hash.substr(1)).access_token ? null : (
         <Redirect to="/" />
       )}
     </div>

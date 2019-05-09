@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { dbx } from "./functions";
+import { dbx } from "./Display";
 import styles from "./css/main.module.css";
 import { DataContext } from "../store";
 

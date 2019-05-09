@@ -3,6 +3,7 @@ import { FetchPath, useLocalStorage } from "./functions";
 import FilesTable from "./FilesTable";
 import { DataContext } from "../store";
 import style from "./css/main.module.css";
+import { dbx } from "./Display";
 
 const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
@@ -17,21 +18,9 @@ const Main = ({ location, history }) => {
   };
   useEffect(
     () => {
-      let update;
-      if (!searchActive && update) {
-        clearInterval(update);
-      } else if (
-        !location.pathname.includes("/move") &&
-        !location.pathname.includes("/copy")
-      ) {
-        update = setInterval(
-          () =>
-            FetchPath((x) => !searchActive && fetchData(x), location.pathname),
-          1000
-        );
-      }
-
-      return () => clearInterval(update);
+      !location.pathname.includes("/move") &&
+        !location.pathname.includes("/copy") &&
+        FetchPath(fetchData, location.pathname, dbx);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]

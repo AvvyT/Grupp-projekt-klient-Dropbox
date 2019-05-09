@@ -4,13 +4,40 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding: 10px;
+}
+.ContainerNavStyle {
+  flex: 1;
+  height: 100%;
+  padding: 0 50px;
 }
 .topNavStyle {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-  width: 95%;
+  padding: 30px 10px;
+}
+.topNavRight {
+  flex: 6;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.topNavRight button {
+  background: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 5px;
+}
+.topNavLeft {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.topNavRight button span {
+  padding: 10px;
+  font-size: 15px;
 }
 .mainTableDisplayStyle {
   flex: 6;
@@ -21,23 +48,25 @@
   align-items: center;
   width: 90%;
 }
+
+.filesDiv {
+  display: flex;
+  padding: 20px;
+}
+.DisplayDivStyle {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .mainDivStyle {
   flex: 1;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
-.containerDivStyle {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  width: 95%;
-}
 .mainDivStyle {
   height: 100%;
   display: flex;
@@ -56,11 +85,12 @@
   border: 1px solid white;
   padding: 3px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 .logoImgStyle {
-  height: 40px;
+  height: 28px;
+  margin: 40px 0;
 }
 .fromStyle {
   flex: 1;
@@ -86,7 +116,8 @@
   list-style: none;
 }
 .listItemStyle {
-  padding: 10px;
+  color: #3d464d;
+  padding: 20px 0;
 }
 .tableStyle {
   width: 100%;

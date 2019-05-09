@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { dbx } from "./functions";
+import { dbx } from "./Display";
 import style from "./css/main.module.css";
 
 import { FetchPath } from "./functions";
