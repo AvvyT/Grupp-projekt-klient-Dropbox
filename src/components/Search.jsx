@@ -45,6 +45,8 @@ const Search = () => {
       <input placeholder="search" className={styles.inputStyle} value={searchWord}
         onChange={(e) => {
           updateSearchWord(e.target.value);
+          console.log(searchWord.length);
+          
         }} />
       <input type='submit' className={styles.uploadButtonStyle} value='Search' />
     </form>
