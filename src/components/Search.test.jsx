@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './Search.jsx';
 
-//import renderer from 'react-test-renderer';
 import { shallow, configure } from 'enzyme';
 
 import Adapter from "enzyme-adapter-react-16"
@@ -26,8 +25,5 @@ it('Check dom-text', () => {
       preventDefault: mockPrevent
     })
     expect(mockPrevent.mock.calls.length).toBe(1)
-  
-    console.log(wrapper)
-    expect(wrapper.find('input').length).toBe(2)
   });
 
