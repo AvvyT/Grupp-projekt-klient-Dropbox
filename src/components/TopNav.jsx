@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Search from "./Search";
 import style from "./css/main.module.css";
 const TopNav = ({ history, location }) => {
   return (
@@ -15,7 +14,7 @@ const TopNav = ({ history, location }) => {
         </Link>
       </div>
       <h1 className={style.titleStyle}>Dropbox</h1>
-      <Search />
+
       <button
         onClick={() => {
           window.localStorage.removeItem("token");

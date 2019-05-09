@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "dropbox": "^4.0.17",
+    "mithril": "^1.1.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-breadcrumbs-hoc": "^3.1.1",

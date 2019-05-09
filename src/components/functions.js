@@ -39,8 +39,8 @@ export function FetchPath(cb, path) {
               return file;
             }
           });
+          //console.log(files);
           cb(data);
-          return data;
         });
     });
 }

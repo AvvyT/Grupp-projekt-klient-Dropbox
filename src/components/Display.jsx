@@ -7,6 +7,7 @@ import Favorites from "./Favorites";
 import TopNav from "./TopNav";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
+import Search from "./Search";
 /* eslint-disable no-use-before-define */
 
 const Display = (props) => {
@@ -34,7 +35,7 @@ const Display = (props) => {
               <div style={{ flex: 1, marginRight: "25px" }} />
               <div
                 style={{
-                  flex: 6,
+                  flex: 3,
                   marginRight: "25px",
                   display: "flex"
                 }}
@@ -43,6 +44,14 @@ const Display = (props) => {
                   <span>&#8592;</span>
                 </button>
                 <h3>Breadcrumb</h3>
+              </div>
+              <div
+                style={{
+                  flex: 2,
+                  marginRight: "25px"
+                }}
+              >
+                <Search />
               </div>
             </div>
 

@@ -3,10 +3,6 @@ import { dbx } from "./functions";
 import styles from "./css/main.module.css";
 import { DataContext } from "../store";
 
-// Visa sökresultat istället för huvudinnehållet
-// Om en användare klickar på en katalog ska applikationen navigera till den katalogen
-// Om en användare klickar på en fil ska filen laddas ner
-
 const Search = () => {
   const [searchWord, updateSearchWord] = useState("");
   const { dispatch } = useContext(DataContext);

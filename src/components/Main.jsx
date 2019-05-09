@@ -7,18 +7,31 @@ import style from "./css/main.module.css";
 const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
   const { state, dispatch } = useContext(DataContext);
-  const { files } = state;
+  const { files, searchActive } = state;
   const fetchData = (data) => {
     dispatch({
       type: "FETCH_DATA",
-      data
+      data,
+      searchActive: false
     });
   };
   useEffect(
     () => {
-      !location.pathname.includes("/move") &&
-        !location.pathname.includes("/copy") &&
-        FetchPath(fetchData, location.pathname);
+      let update;
+      if (!searchActive && update) {
+        clearInterval(update);
+      } else if (
+        !location.pathname.includes("/move") &&
+        !location.pathname.includes("/copy")
+      ) {
+        update = setInterval(
+          () =>
+            FetchPath((x) => !searchActive && fetchData(x), location.pathname),
+          1000
+        );
+      }
+
+      return () => clearInterval(update);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]

@@ -32,6 +32,8 @@ export const reducer = (state, action) => {
       return { ...state, files };
     }
 
+    case "SEARCH_OFF":
+      return { ...state, searchActive: false };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { dbx } from "./functions";
 import style from "./css/main.module.css";
 import DeleteModal from "./Modals/DeleteModal";
@@ -22,7 +22,11 @@ const FilesTable = ({
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
   const { dispatch } = useContext(DataContext);
-
+  useEffect(() => {
+    dbx
+      .usersGetAccount({ account_id: localStorage.getItem("account_id") })
+      .then((res) => console.log(res));
+  }, []);
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
