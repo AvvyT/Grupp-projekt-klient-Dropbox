@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { dbx } from "./Display";
 import style from "./css/main.module.css";
 import DeleteModal from "./Modals/DeleteModal";
 import MoveModal from "./Modals/MoveModal";
@@ -7,6 +6,8 @@ import File from "./File";
 import { DataContext } from "../store";
 import { Route, Redirect } from "react-router-dom";
 import CopyModal from "./Modals/CopyModal";
+import { Dropbox } from "dropbox";
+
 const FilesTable = ({
   files,
   storage,
@@ -20,7 +21,11 @@ const FilesTable = ({
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
   const { dispatch } = useContext(DataContext);
-
+  let dbx = new Dropbox({
+    accessToken: window.localStorage.getItem("token"),
+    clientId: "qwcieudyqiph2un",
+    fetch
+  });
   const handleFavorite = (file) => {
     if (storage.findIndex((x) => x.id === file.id) === -1) {
       let newStorage = [...storage, file];
@@ -121,11 +126,12 @@ const FilesTable = ({
         console.error(error);
       });
   };
-  const handleRename = (name) => {
+  const handleRename = (name, renameProgress, setRenameProgress) => {
     const extension =
       modalData.name.indexOf(".") > -1
         ? "." + modalData.name.replace(/^.*\./, "")
         : "";
+    setRenameProgress(!renameProgress);
     dbx
       .filesMove({
         from_path: modalData.from_path,
@@ -148,6 +154,7 @@ const FilesTable = ({
           const newStorage = [...storage];
           setStorage(newStorage);
         }
+        setRenameProgress(false);
       })
       .catch(function(error) {
         console.error(error);
@@ -172,6 +179,7 @@ const FilesTable = ({
               moveOn={moveOn}
               setMoveToggle={setMoveToggle}
               handleMove={handleMove}
+              dbx={dbx}
               action="move"
               {...props}
             />
@@ -190,6 +198,7 @@ const FilesTable = ({
               setCopyToggle={setCopyToggle}
               handleCopy={handleCopy}
               action="copy"
+              dbx={dbx}
               {...props}
             />
           )}

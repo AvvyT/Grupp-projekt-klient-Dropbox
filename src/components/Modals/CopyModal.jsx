@@ -13,7 +13,8 @@ const CopyModal = ({
   CopyOn,
   setCopyToggle,
   handleCopy,
-  action
+  action,
+  dbx
 }) => {
   const input = useRef();
   return (
@@ -49,7 +50,7 @@ const CopyModal = ({
               <Route
                 path="/copy/"
                 component={(props) => (
-                  <MoveFolderTable {...props} action={action} />
+                  <MoveFolderTable {...props} action={action} dbx={dbx} />
                 )}
               />
             </div>

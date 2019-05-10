@@ -31,9 +31,38 @@ export const reducer = (state, action) => {
       });
       return { ...state, files };
     }
+    case "UPLOAD_PROGRESS_START": {
+      return {
+        ...state,
+        uploadStatus: true,
+        fileInfo: action.fileInfo
+      };
+    }
+    case "UPLOAD_PROGRESS_ON":
+      return {
+        ...state,
+        idx: action.idx,
+        items: action.items
+      };
+    case "UPDATE_IDX":
+      return {
+        ...state,
+        idx: action.idx
+      };
 
+    case "UPLOAD_PROGRESS_END":
+      return {
+        ...state,
+        uploadStatus: false,
+        fileInfo: null,
+        idx: null,
+        items: null
+      };
     case "SEARCH_OFF":
-      return { ...state, searchActive: false };
+      return {
+        ...state,
+        searchActive: false
+      };
     default:
       return state;
   }

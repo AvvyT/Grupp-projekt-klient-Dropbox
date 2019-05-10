@@ -28,6 +28,7 @@ const File = ({
   }
 
   const [nameOn, ToggleNameChanger] = useState(false);
+  const [renameProgress, setRenameProgress] = useState(false);
 
   return (
     <>
@@ -41,6 +42,8 @@ const File = ({
             ToggleNameChanger={ToggleNameChanger}
             nameOn={nameOn}
             handleRename={handleRename}
+            renameProgress={renameProgress}
+            setRenameProgress={setRenameProgress}
           />
           <td>{file.server_modified}</td>
           <td>{file.size && (file.size * 0.000001).toFixed(2) + "MB"}</td>
@@ -60,6 +63,8 @@ const File = ({
                   deleteOn={deleteOn}
                   nameOn={nameOn}
                   location={location}
+                  renameProgress={renameProgress}
+                  setRenameProgress={setRenameProgress}
                 />
               )) ||
                 ".."}

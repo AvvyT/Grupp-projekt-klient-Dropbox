@@ -8,12 +8,14 @@ const ChangeName = ({
   handleRename,
   storage,
   ToggleNameChanger,
-  nameOn
+  nameOn,
+  renameProgress,
+  setRenameProgress
 }) => {
   const input = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleRename(input.current.value);
+    handleRename(input.current.value, renameProgress, setRenameProgress);
     ToggleNameChanger(!nameOn);
   };
   useEffect(() => {
@@ -32,10 +34,20 @@ const ChangeName = ({
             />
           </form>
         ) : file[".tag"] === "folder" ? (
-          <Link to={file.path_lower}>{file.name}</Link>
+          <Link to={file.path_lower}>
+            {renameProgress ? (
+              <p style={{ color: "#007ee5" }}>Renaming...</p>
+            ) : (
+              file.name
+            )}
+          </Link>
         ) : (
           <>
-            {file.name}
+            {renameProgress ? (
+              <p style={{ color: "#007ee5" }}>Renaming...</p>
+            ) : (
+              file.name
+            )}
             <button
               onClick={() => handleFavorite(file)}
               className={style.favoriteButton}

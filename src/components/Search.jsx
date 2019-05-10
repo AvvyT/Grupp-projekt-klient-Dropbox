@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
-import { dbx } from "./Display";
 import styles from "./css/main.module.css";
 import { DataContext } from "../store";
+import { Dropbox } from "dropbox";
 
 const Search = () => {
   const [searchWord, updateSearchWord] = useState("");
   const { dispatch } = useContext(DataContext);
-
+  let dbx = new Dropbox({
+    accessToken: window.localStorage.getItem("token"),
+    clientId: "qwcieudyqiph2un",
+    fetch
+  });
   const searchFileOrFolder = () => {
     let path = "";
     dbx

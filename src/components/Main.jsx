@@ -3,12 +3,17 @@ import { FetchPath, useLocalStorage } from "./functions";
 import FilesTable from "./FilesTable";
 import { DataContext } from "../store";
 import style from "./css/main.module.css";
-import { dbx } from "./Display";
+import { Dropbox } from "dropbox";
 
 const Main = ({ location, history }) => {
   const [storage, setStorage] = useLocalStorage("favorites", []);
   const { state, dispatch } = useContext(DataContext);
   const { files, searchActive } = state;
+  let dbx = new Dropbox({
+    accessToken: window.localStorage.getItem("token"),
+    clientId: "qwcieudyqiph2un",
+    fetch
+  });
   const fetchData = (data) => {
     dispatch({
       type: "FETCH_DATA",

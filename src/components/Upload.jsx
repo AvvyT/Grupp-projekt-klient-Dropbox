@@ -1,17 +1,20 @@
 import React, { useContext, useState } from "react";
-import { dbx } from "./Display";
 import style from "./css/main.module.css";
-
+import { Dropbox } from "dropbox";
 import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
 const Upload = ({ location }) => {
   const { dispatch } = useContext(DataContext);
   const [on, setToggle] = useState(false);
-
+  let dbx = new Dropbox({
+    accessToken: window.localStorage.getItem("token"),
+    clientId: "qwcieudyqiph2un",
+    fetch
+  });
   const uploadFile = (file) => {
     const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024;
-    if (file.size < UPLOAD_FILE_SIZE_LIMIT) {
+    if (file && file.size < UPLOAD_FILE_SIZE_LIMIT) {
       dbx
         .filesUpload({
           path:
@@ -21,7 +24,7 @@ const Upload = ({ location }) => {
           contents: file
         })
         .then(() => {
-          FetchPath(fetchData, location.pathname);
+          FetchPath(fetchData, location.pathname, dbx);
         })
         .catch((error) => {
           console.error(error);
@@ -29,8 +32,11 @@ const Upload = ({ location }) => {
     } else {
       const maxBlob = 8 * 1000 * 1000;
       let workItems = [];
-
       let offset = 0;
+      dispatch({
+        type: "UPLOAD_PROGRESS_START",
+        fileInfo: { name: file.name, fileSize: file.size }
+      });
       while (offset < file.size) {
         let chunkSize = Math.min(maxBlob, file.size - offset);
         workItems.push(file.slice(offset, offset + chunkSize));
@@ -42,7 +48,16 @@ const Upload = ({ location }) => {
           return acc.then(() => {
             return dbx
               .filesUploadSessionStart({ close: false, contents: blob })
-              .then((response) => response.session_id);
+              .then((response) => {
+                console.log("start");
+                dispatch({
+                  type: "UPLOAD_PROGRESS_ON",
+                  idx: idx,
+                  items: items.length
+                });
+
+                return response.session_id;
+              });
           });
         } else if (idx < items.length - 1) {
           return acc.then((sessionId) => {
@@ -53,7 +68,14 @@ const Upload = ({ location }) => {
                 close: false,
                 contents: blob
               })
-              .then(() => sessionId);
+              .then(() => {
+                console.log("inProgress");
+                dispatch({
+                  type: "UPDATE_IDX",
+                  idx: idx
+                });
+                return sessionId;
+              });
           });
         } else {
           return acc.then(function(sessionId) {
@@ -67,11 +89,19 @@ const Upload = ({ location }) => {
               autorename: true,
               mute: false
             };
-            return dbx.filesUploadSessionFinish({
-              cursor: cursor,
-              commit: commit,
-              contents: blob
-            });
+            return dbx
+              .filesUploadSessionFinish({
+                cursor: cursor,
+                commit: commit,
+                contents: blob
+              })
+              .then((res) => {
+                console.log("finish");
+                console.log(res);
+                dispatch({
+                  type: "UPLOAD_PROGRESS_END"
+                });
+              });
           });
         }
       }, Promise.resolve());

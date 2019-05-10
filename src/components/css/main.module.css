@@ -473,6 +473,37 @@ tr:hover .favoriteIcon {
   border-radius: 5px;
   border: 1px solid #c1c7cd;
 }
+.changeNameInput:focus {
+  outline: none;
+  border: 1px solid #007ee59e;
+}
 .changeNameForm {
   width: 100%;
+}
+.UploadProgress {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  min-width: 400px;
+  height: 46px;
+  background: #c1c7cd;
+  transform: translateX(-44%);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+.progressBarContainer {
+  width: 100%;
+  background: red;
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  overflow: hidden;
+}
+.progressBar {
+  height: 10px;
+  width: 1%;
+  background: rgb(146, 233, 146);
 }

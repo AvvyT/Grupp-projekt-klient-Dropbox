@@ -12,7 +12,8 @@ const MoveModal = ({
   moveOn,
   setMoveToggle,
   handleMove,
-  action
+  action,
+  dbx
 }) => {
   return (
     <Portal>
@@ -46,7 +47,7 @@ const MoveModal = ({
               <Route
                 path="/move/"
                 component={(props) => (
-                  <MoveFolderTable {...props} action={action} />
+                  <MoveFolderTable {...props} action={action} dbx={dbx} />
                 )}
               />
             </div>
