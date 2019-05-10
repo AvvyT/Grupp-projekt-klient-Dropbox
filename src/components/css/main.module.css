@@ -484,26 +484,40 @@ tr:hover .favoriteIcon {
   position: fixed;
   bottom: 16px;
   left: 50%;
-  min-width: 400px;
-  height: 46px;
-  background: #c1c7cd;
+  min-width: 40%;
+  height: 45px;
+  background: #fff;
   transform: translateX(-44%);
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
+    1px -4px 20px 0px rgba(27, 39, 51, 0.08);
 }
 .progressBarContainer {
   width: 100%;
-  background: red;
+  background: #dddfe1;
   border-radius: 5px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow: hidden;
 }
 .progressBar {
-  height: 10px;
+  height: 2px;
   width: 1%;
-  background: rgb(146, 233, 146);
+  background: #0070e0;
+}
+.fileInfo {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+}
+.fileInfo > * {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 100;
 }

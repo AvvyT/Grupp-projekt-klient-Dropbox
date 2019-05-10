@@ -7,7 +7,6 @@ import Favorites from "./Favorites";
 import TopNav from "./TopNav";
 import { Dropbox } from "dropbox";
 import style from "./css/main.module.css";
-import UploadProgress from "./Modals/UploadProgress";
 /* eslint-disable no-use-before-define */
 export let dbx = new Dropbox({
   accessToken: window.localStorage.getItem("token"),
@@ -59,7 +58,6 @@ const Display = (props) => {
                 </div>
               </div>
             </div>
-            <UploadProgress />
           </>
         )}
       </div>

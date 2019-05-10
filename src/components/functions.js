@@ -33,7 +33,6 @@ export function FetchPath(cb, path, dbx) {
               return file;
             }
           });
-          //console.log(files);
           cb(data);
         });
     });

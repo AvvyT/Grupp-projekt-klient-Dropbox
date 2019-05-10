@@ -102,7 +102,9 @@ tr {
   height: 50px;
   animation: anim-spin 1s infinite ease;
 }
-
+.svgSpiner {
+  animation: anim-spin 1s infinite linear;
+}
 .spiner:after {
   content: "";
   position: absolute;

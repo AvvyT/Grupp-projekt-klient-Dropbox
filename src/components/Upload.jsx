@@ -4,8 +4,15 @@ import { Dropbox } from "dropbox";
 import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
+import UploadProgress from "./UploadProgress";
 const Upload = ({ location }) => {
   const { dispatch } = useContext(DataContext);
+  const [idx, setIdx] = useState(0);
+  const [items, setItems] = useState(0);
+  const [info, setInfo] = useState({ name: "", size: "" });
+  const [uploadedSize, setUploadedSize] = useState(0);
+  const [uploadDisabled, setUploadDisabled] = useState(false);
+  const [uploadDone, setUploadDone] = useState(false);
   const [on, setToggle] = useState(false);
   let dbx = new Dropbox({
     accessToken: window.localStorage.getItem("token"),
@@ -13,7 +20,7 @@ const Upload = ({ location }) => {
     fetch
   });
   const uploadFile = (file) => {
-    const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024;
+    const UPLOAD_FILE_SIZE_LIMIT = 50 * 1024 * 1024;
     if (file && file.size < UPLOAD_FILE_SIZE_LIMIT) {
       dbx
         .filesUpload({
@@ -33,10 +40,8 @@ const Upload = ({ location }) => {
       const maxBlob = 8 * 1000 * 1000;
       let workItems = [];
       let offset = 0;
-      dispatch({
-        type: "UPLOAD_PROGRESS_START",
-        fileInfo: { name: file.name, fileSize: file.size }
-      });
+      setUploadDisabled(true);
+      setInfo({ name: file.name, size: file.size });
       while (offset < file.size) {
         let chunkSize = Math.min(maxBlob, file.size - offset);
         workItems.push(file.slice(offset, offset + chunkSize));
@@ -49,12 +54,8 @@ const Upload = ({ location }) => {
             return dbx
               .filesUploadSessionStart({ close: false, contents: blob })
               .then((response) => {
-                console.log("start");
-                dispatch({
-                  type: "UPLOAD_PROGRESS_ON",
-                  idx: idx,
-                  items: items.length
-                });
+                setIdx(idx);
+                setItems(items.length);
 
                 return response.session_id;
               });
@@ -69,11 +70,8 @@ const Upload = ({ location }) => {
                 contents: blob
               })
               .then(() => {
-                console.log("inProgress");
-                dispatch({
-                  type: "UPDATE_IDX",
-                  idx: idx
-                });
+                setIdx(idx);
+                setUploadedSize((idx * maxBlob * 0.000001).toFixed(0));
                 return sessionId;
               });
           });
@@ -96,11 +94,8 @@ const Upload = ({ location }) => {
                 contents: blob
               })
               .then((res) => {
-                console.log("finish");
-                console.log(res);
-                dispatch({
-                  type: "UPLOAD_PROGRESS_END"
-                });
+                FetchPath(fetchData, location.pathname, dbx);
+                setUploadDone(true);
               });
           });
         }
@@ -126,9 +121,7 @@ const Upload = ({ location }) => {
         path: (location.pathname === "/" ? "" : location.pathname) + "/" + name,
         autorename: true
       })
-      .then(function(response) {
-        console.log(response);
-      })
+      .then(function(response) {})
       .then(() => FetchPath(fetchData, location.pathname))
       .then(() => setToggle(!on))
       .catch(function(error) {
@@ -140,7 +133,11 @@ const Upload = ({ location }) => {
     <>
       <div className={style.ContainerDivStyle}>
         <label className={style.fileContainer}>
-          <input type="file" onChange={(e) => uploadFile(e.target.files[0])} />
+          <input
+            type="file"
+            onChange={(e) => uploadFile(e.target.files[0])}
+            disabled={uploadDisabled}
+          />
           <span> Upload Files</span>
         </label>
         <button onClick={() => setToggle(!on)} className={style.buttonStyle}>
@@ -152,6 +149,21 @@ const Upload = ({ location }) => {
           on={on}
           setToggle={setToggle}
           handleCreateFolder={handleCreateFolder}
+        />
+      )}
+      {uploadDisabled && (
+        <UploadProgress
+          uploadDisabled={uploadDisabled}
+          setUploadDisabled={setUploadDisabled}
+          setUploadDone={setUploadDone}
+          uploadDone={uploadDone}
+          setInfo={setInfo}
+          idx={idx}
+          info={info}
+          items={items}
+          setIdx={setIdx}
+          setItems={setItems}
+          uploadedSize={uploadedSize}
         />
       )}
     </>
