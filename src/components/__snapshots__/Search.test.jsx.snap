@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search should be possible to activate form-submit with Spacebar 1`] = `ReactWrapper {}`;
+
+exports[`Search should render banner text correctly with given strings 1`] = `ShallowWrapper {}`;
+
+exports[`Search should render correctly in "debug" mode 1`] = `ShallowWrapper {}`;
+
+exports[`should be possible to activate form-submit with Spacebar 1`] = `ReactWrapper {}`;
+
+exports[`should render banner text correctly with given strings 1`] = `ShallowWrapper {}`;
