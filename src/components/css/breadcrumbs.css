@@ -1,0 +1,28 @@
+.breadcrumbs,
+.bc,
+.content {
+  display: flex;
+}
+.bc {
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.bc svg {
+  margin-right: 5px;
+  transition: opacity 0.2s linear;
+}
+
+.bc:last-child > svg {
+  opacity: 0;
+}
+
+.bc span {
+  display: flex;
+  align-items: center;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+}

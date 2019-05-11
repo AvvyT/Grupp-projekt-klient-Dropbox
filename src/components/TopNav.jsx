@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import style from "./css/main.module.css";
 import Search from "./Search";
 import { Dropbox } from "dropbox";
+import Breadcrumbs from "./breadcrumbs";
 
 const TopNav = ({ history, location }) => {
   //console.log(userInfo);
@@ -37,7 +38,7 @@ const TopNav = ({ history, location }) => {
         <button onClick={() => history.goBack()}>
           <span>&#8592;</span>
         </button>
-        <p>Home</p>
+        <Breadcrumbs/>
       </div>
       <div className={style.topNavLeft}>
         <Search />
