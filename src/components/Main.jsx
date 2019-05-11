@@ -49,7 +49,7 @@ const Main = ({ location, history }) => {
           "This folder is empty"
         )
       ) : (
-        <div className="spiner" />
+        <div className="spinner" />
       )}
     </FilesTable>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import Nav from "./Nav";
 import Main from "./Main";
@@ -14,7 +14,6 @@ export let dbx = new Dropbox({
   fetch
 });
 const Display = (props) => {
-  const [userInfo, setUserInfo] = useState("");
   const token = window.localStorage.getItem("token");
   const connectButton = useRef();
   useEffect(() => {
@@ -26,10 +25,6 @@ const Display = (props) => {
     const authUrl = dbx.getAuthenticationUrl("http://localhost:3000/callback/");
     if (!token) {
       connectButton.current.href = authUrl;
-    } else {
-      dbx
-        .usersGetAccount({ account_id: localStorage.getItem("account_id") })
-        .then((res) => setUserInfo(res));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -48,7 +43,7 @@ const Display = (props) => {
             <Nav {...props} />
             <div style={{ flex: 9, height: "100%" }}>
               <div className={style.DisplayDivStyle}>
-                <TopNav {...props} userInfo={userInfo} />
+                <TopNav {...props} />
                 <div className={style.filesDiv}>
                   <Switch>
                     <Route path="/favorites" exact component={Favorites} />

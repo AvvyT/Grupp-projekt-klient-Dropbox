@@ -122,7 +122,7 @@ const Upload = ({ location }) => {
         autorename: true
       })
       .then(function(response) {})
-      .then(() => FetchPath(fetchData, location.pathname))
+      .then(() => FetchPath(fetchData, location.pathname, dbx))
       .then(() => setToggle(!on))
       .catch(function(error) {
         console.error(error);

@@ -15,7 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px 10px;
+  padding: 30px 30px 30px 10px;
 }
 .topNavRight {
   flex: 6;
@@ -386,17 +386,17 @@ tr:hover .favoriteIcon {
   width: 100%;
   text-align: center;
 }
-.spinerDiv {
+.spinnerDiv {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100px;
   font-size: 12px;
 }
-.spinerDiv > div {
+.spinnerDiv > div {
   margin-right: 20px;
 }
-.spinerNoFolders {
+.spinnerNoFolders {
   height: 100px;
   font-size: 12px;
   display: flex;
@@ -520,4 +520,103 @@ tr:hover .favoriteIcon {
   margin-left: 10px;
   font-size: 16px;
   font-weight: 100;
+}
+.UserDropDown {
+  display: flex;
+  flex-direction: column;
+  height: 30px;
+  position: relative;
+  width: 30px;
+  margin-left: 15px;
+}
+.UserDropDown img {
+  width: 30px;
+  cursor: pointer;
+}
+.UserDropDownDropList {
+  box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
+    1px -4px 20px 0px rgba(27, 39, 51, 0.08);
+  border-radius: 5px;
+  font-size: 14px;
+  position: absolute;
+  top: 135%;
+  right: 0;
+  min-width: 160px;
+  color: #647282;
+  background: #fff;
+  padding: 20px 10px;
+  z-index: 99999;
+  font-size: 13px;
+}
+.UserDropDownDropList ul {
+  list-style: none;
+}
+.UserDropDownDropList li {
+  margin-bottom: 10px;
+}
+.dropDownListOne {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dropDownListTow {
+  height: 60px;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  border-bottom: 1px solid #dddfe1;
+}
+li.dropDownListThree {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+.dropDownListOne > div {
+  margin: 10px;
+}
+.dropDownUserInfo {
+  display: flex;
+  flex-direction: column;
+}
+.dropDownListTow span,
+.dropDownUserInfo span {
+  padding-bottom: 10px;
+}
+.dropDownListTow span:last-child {
+  color: #007ee5;
+  font-weight: 500;
+  font-size: 17px;
+}
+.dropDownProgress {
+  width: 100%;
+  height: 2px;
+  background: #dddfe1;
+}
+.dropDownProgressBar {
+  height: 100%;
+  width: 20%;
+  background: #007ee5;
+}
+.downloadProgress {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  box-shadow: 0 0 0 1px rgba(99, 114, 130, 0.16),
+    1px -4px 20px 0px rgba(27, 39, 51, 0.08);
+  border-radius: 5px;
+  background: #e6e8eb;
 }

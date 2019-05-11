@@ -28,12 +28,12 @@ const MoveFolderTable = ({ location, action, dbx }) => {
   return (
     <>
       {files === null ? (
-        <div className={style.spinerDiv}>
-          <div className="spiner" />
+        <div className={style.spinnerDiv}>
+          <div className="spinner" />
           Loading your files ...
         </div>
       ) : files.length === 0 ? (
-        <div className={style.spinerNoFolders}>
+        <div className={style.spinnerNoFolders}>
           {" "}
           there is no folders here ...
         </div>

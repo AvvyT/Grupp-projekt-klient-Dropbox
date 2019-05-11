@@ -88,24 +88,24 @@ tr {
 .active {
   color: #007ee5;
 }
-#portal .spiner {
+#portal .spinner {
   width: 20px;
   height: 20px;
 }
-#portal .spiner::after {
+#portal .spinner::after {
   border-width: 3px;
 }
 
-.spiner {
+.spinner {
   position: relative;
   width: 50px;
   height: 50px;
   animation: anim-spin 1s infinite ease;
 }
-.svgSpiner {
+.svgSpinner {
   animation: anim-spin 1s infinite linear;
 }
-.spiner:after {
+.spinner:after {
   content: "";
   position: absolute;
   top: 0;

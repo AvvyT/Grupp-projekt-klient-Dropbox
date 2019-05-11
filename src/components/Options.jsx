@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./css/main.module.css";
 import { Link } from "react-router-dom";
+
 const Options = ({
   downloadFile,
   file,
@@ -20,10 +21,10 @@ const Options = ({
   OnClickOutside(List, setListToggle);
   return (
     <>
-      <div onClick={() => setListToggle(!listOn)} className="listToggleDiv">
-        <span>
+      <div onClick={() => setListToggle(!listOn)} className="listToggler">
+        <span className="listToggler">
           <svg
-            className="listToggleSpan"
+            className="listToggler"
             focusable="false"
             width="32"
             height="32"
@@ -42,7 +43,10 @@ const Options = ({
       </div>
       {listOn && (
         <ul ref={List} className={style.list}>
-          <li onClick={() => downloadFile(file.id, file.name, file[".tag"])}>
+          <li
+            onClick={() => downloadFile(file.id, file.name, file[".tag"])}
+            className="listToggler"
+          >
             Download
           </li>
           <li
@@ -121,9 +125,8 @@ function OnClickOutside(ref, handler) {
     const listener = (event) => {
       if (
         !ref.current ||
-        ref.current.contains(event.target) ||
-        event.target.className === "listToggleDiv" ||
-        event.target.className === "listToggleSpan"
+        !ref.current.contains(event.target) ||
+        event.target.className !== "listToggler"
       )
         return;
       handler();

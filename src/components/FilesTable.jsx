@@ -20,6 +20,8 @@ const FilesTable = ({
   const [CopyOn, setCopyToggle] = useState(false);
   const [moveOn, setMoveToggle] = useState(false);
   const [modalData, setModalDate] = useState("");
+  const [toggleDownload, setToggleDownload] = useState(false);
+  const [downloadStatus, setDownloadStatus] = useState(false);
   const { dispatch } = useContext(DataContext);
   let dbx = new Dropbox({
     accessToken: window.localStorage.getItem("token"),
@@ -36,6 +38,9 @@ const FilesTable = ({
     }
   };
   const downloadFile = (id, name, type) => {
+    console.log("start");
+    setToggleDownload(true);
+    setDownloadStatus(false);
     if (type === "file") {
       dbx
         .filesDownload({ path: id })
@@ -45,6 +50,11 @@ const FilesTable = ({
           tempLink.href = URL;
           tempLink.setAttribute("download", name);
           tempLink.click();
+          setDownloadStatus(true);
+          setTimeout(() => {
+            console.log("done");
+            setToggleDownload(false);
+          }, 3000);
         })
         .catch(function(error) {
           console.error(error);
@@ -58,6 +68,11 @@ const FilesTable = ({
           tempLink.href = URL;
           tempLink.setAttribute("download", name);
           tempLink.click();
+          setDownloadStatus(true);
+          setTimeout(() => {
+            console.log("done");
+            setToggleDownload(false);
+          }, 3000);
         })
         .catch(function(error) {
           console.error(error);
@@ -267,6 +282,48 @@ const FilesTable = ({
         ) : (
           children
         )}
+
+        {toggleDownload ? (
+          <div className={style.downloadProgress}>
+            {!downloadStatus ? (
+              <>
+                <svg
+                  focusable="false"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  role="img"
+                  className="svgSpinner"
+                >
+                  <path
+                    d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm-2.1 8.8l-1.1 1.1c-.7-.7-1.1-1.7-1.1-2.8 0-2.3 1.9-4.3 4.3-4.3V6.7l1.8 1.8-1.8 1.7v-.9c-1.5 0-2.8 1.2-2.8 2.8.1.6.3 1.2.7 1.7zm2.1 2.5v1l-1.8-1.8 1.8-1.8v1c1.5 0 2.8-1.2 2.8-2.8 0-.7-.2-1.3-.6-1.8L15.3 9c.7.8 1.1 1.7 1.1 2.8-.1 2.6-2 4.5-4.4 4.5z"
+                    fill="#0070E0"
+                  />
+                </svg>
+                <span>Pleas wait...</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  {" "}
+                  <svg
+                    focusable="false"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    role="img"
+                  >
+                    <path
+                      d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm-1.2 10.4L8 12.5l1.1-1.1 1.8 1.8 4.6-4.6 1.1 1.1-5.8 5.7z"
+                      fill="#057849"
+                    />
+                  </svg>
+                </span>
+                ready
+              </>
+            )}
+          </div>
+        ) : null}
       </div>
     </>
   );

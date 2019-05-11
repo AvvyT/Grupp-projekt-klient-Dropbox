@@ -15,7 +15,7 @@ const UploadProgress = ({
   uploadedSize
 }) => {
   const { name, size } = info;
-  const procent = parseInt(1 + (idx / (items - 2)) * 100);
+  const percent = parseInt(1 + (idx / (items - 2)) * 100);
   if (uploadDone) {
     setTimeout(() => {
       setUploadDisabled(false);
@@ -35,7 +35,7 @@ const UploadProgress = ({
             height="24"
             viewBox="0 0 24 24"
             role="img"
-            className="svgSpiner"
+            className="svgSpinner"
           >
             <path
               d="M12 5c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm-2.1 8.8l-1.1 1.1c-.7-.7-1.1-1.7-1.1-2.8 0-2.3 1.9-4.3 4.3-4.3V6.7l1.8 1.8-1.8 1.7v-.9c-1.5 0-2.8 1.2-2.8 2.8.1.6.3 1.2.7 1.7zm2.1 2.5v1l-1.8-1.8 1.8-1.8v1c1.5 0 2.8-1.2 2.8-2.8 0-.7-.2-1.3-.6-1.8L15.3 9c.7.8 1.1 1.7 1.1 2.8-.1 2.6-2 4.5-4.4 4.5z"
@@ -65,7 +65,10 @@ const UploadProgress = ({
       <div className={style.progressBarContainer}>
         <div
           className={style.progressBar}
-          style={{ width: procent + "%", background: uploadDone && "#057849" }}
+          style={{
+            width: percent + "%",
+            background: uploadDone && "#057849"
+          }}
         />
       </div>
     </div>
