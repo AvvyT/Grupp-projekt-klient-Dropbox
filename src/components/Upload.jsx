@@ -72,8 +72,8 @@ const Upload = ({ location }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dbx.filesUpload({ path: "/test/", contents: file }).then(res => console.log(res))
-    uploadFile()
+
+    uploadFile();
   }
 
   const fetchData = (data) => {

@@ -14,6 +14,7 @@ configure({ adapter: new Adapter() });
 // skapa en mock fun.
 const mockPrevent = jest.fn();
 
+// Testing one isolated function, or one React component. Enzyme’s shallow() is a unit test.
 describe('Search', () => {
     it('should render correctly in "debug" mode', () => {
         const funComponent = shallow(<Search debug />);
@@ -41,8 +42,11 @@ describe('Search', () => {
         expect(mockPrevent.mock.calls.length).toBe(1)
     });
 
+
+
     /**---Snapshot Testing---**/
-    // event-test interacting with a child component // mount-test
+    // Testing a multitude of functions working together, or an entire React component including children components. 
+    // Enzyme’s mount() is an integration test.
     it('should be possible to activate form-submit with Spacebar', () => {
         const funComponent = mount(<Search />);
         funComponent
@@ -52,7 +56,7 @@ describe('Search', () => {
         funComponent.unmount();
     });
 
-    
+
     it('should render banner text correctly with given strings', () => {
         const strings = ['one', 'two'];
         const funComponent = shallow(<Search list={strings} />);
