@@ -37,7 +37,7 @@ describe('Search', () => {
     it('form gets submitted once', () => {
         const wrapper = shallow(<Search />);
 
-        expect(wrapper.find('input').length).to.equal(2)
+        expect(wrapper.find('input').length).to.equal(1)
         // preventDefault-metod: läggs mock-fun
         wrapper.find('form').simulate("submit", {
             preventDefault: mockPrevent
