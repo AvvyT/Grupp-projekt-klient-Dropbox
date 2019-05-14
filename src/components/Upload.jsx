@@ -5,6 +5,7 @@ import { FetchPath } from "./functions";
 import { DataContext } from "../store";
 import CreateFolder from "./Modals/CreateFolderModal";
 import UploadProgress from "./UploadProgress";
+
 const Upload = ({ location }) => {
   const { dispatch } = useContext(DataContext);
   const [idx, setIdx] = useState(0);
@@ -63,12 +64,7 @@ const Upload = ({ location }) => {
         } else if (idx < items.length - 1) {
           return acc.then((sessionId) => {
             var cursor = { session_id: sessionId, offset: idx * maxBlob };
-            return dbx
-              .filesUploadSessionAppendV2({
-                cursor: cursor,
-                close: false,
-                contents: blob
-              })
+            return dbx.filesUploadSessionAppendV2({ cursor: cursor, close: false, contents: blob })
               .then(() => {
                 setIdx(idx);
                 setUploadedSize((idx * maxBlob * 0.000001).toFixed(0));
@@ -124,7 +120,7 @@ const Upload = ({ location }) => {
       .then(function(response) {})
       .then(() => FetchPath(fetchData, location.pathname, dbx))
       .then(() => setToggle(!on))
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   };
@@ -132,13 +128,14 @@ const Upload = ({ location }) => {
   return (
     <>
       <div className={style.ContainerDivStyle}>
+      
         <label className={style.fileContainer}>
-          <input
+          <input 
             type="file"
-            onChange={(e) => uploadFile(e.target.files[0])}
+            onChange={(e) => uploadFile(e.target.files[0])} 
             disabled={uploadDisabled}
           />
-          <span> Upload Files</span>
+            <span> Upload Files</span>
         </label>
         <button
           onClick={() => {
