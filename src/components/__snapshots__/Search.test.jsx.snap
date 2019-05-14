@@ -2,6 +2,8 @@
 
 exports[`Search  render correctly  1`] = `ShallowWrapper {}`;
 
+exports[`Search render correctly  1`] = `ShallowWrapper {}`;
+
 exports[`Search should be possible to activate form-submit with Spacebar 1`] = `ReactWrapper {}`;
 
 exports[`Search should render banner text correctly with given strings 1`] = `ShallowWrapper {}`;
