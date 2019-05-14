@@ -13,7 +13,8 @@ const CopyModal = ({
   CopyOn,
   setCopyToggle,
   handleCopy,
-  action
+  action,
+  dbx
 }) => {
   const input = useRef();
   return (
@@ -36,7 +37,7 @@ const CopyModal = ({
               <img className={style.iconImgStyle} alt="icon" src={thumbnail} />
               <span className={style.ModalBodyDivSpan}>
                 {location.pathname
-                  .replace("/copy", "Files")
+                  .replace("/copy", "Main")
                   .split("/")
                   .reverse()[0]
                   .toUpperCase()}
@@ -47,14 +48,16 @@ const CopyModal = ({
             <div className={style.modalRoutsDiv}>
               <input ref={input} placeholder="change the name" />
               <Route
-                path="/copy"
+                path="/copy/"
                 component={(props) => (
-                  <MoveFolderTable {...props} action={action} />
+                  <MoveFolderTable {...props} action={action} dbx={dbx} />
                 )}
               />
             </div>
             <div className={style.ModalButtons}>
-              <button onClick={() => handleCopy()}>Copy</button>
+              <button onClick={() => handleCopy(input.current.value)}>
+                Copy
+              </button>
               <button onClick={() => setCopyToggle(!CopyOn)}>Cancel</button>
             </div>
           </div>

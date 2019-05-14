@@ -21,12 +21,12 @@ body {
   width: 100%;
 }
 #root > div {
-  width: 90%;
+  width: 100%;
 }
 table {
   border-collapse: collapse;
   width: 100%;
-  width: 100%;
+
   height: 100%;
   text-align: left;
   display: flex;
@@ -42,6 +42,7 @@ thead {
 tbody {
   overflow: scroll;
   flex: 1;
+  padding: 0 0 200px 0;
 }
 td,
 th {
@@ -65,6 +66,10 @@ th:last-child {
   padding-right: 20px;
   justify-content: flex-end;
 }
+button {
+  outline: none;
+  cursor: pointer;
+}
 td:first-child,
 th:first-child {
   flex: 4 0;
@@ -83,22 +88,24 @@ tr {
 .active {
   color: #007ee5;
 }
-#portal .spiner {
+#portal .spinner {
   width: 20px;
   height: 20px;
 }
-#portal .spiner::after {
+#portal .spinner::after {
   border-width: 3px;
 }
 
-.spiner {
+.spinner {
   position: relative;
   width: 50px;
   height: 50px;
   animation: anim-spin 1s infinite ease;
 }
-
-.spiner:after {
+.svgSpinner {
+  animation: anim-spin 1s infinite linear;
+}
+.spinner:after {
   content: "";
   position: absolute;
   top: 0;

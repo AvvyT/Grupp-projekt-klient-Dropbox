@@ -1,14 +1,8 @@
 import { useState } from "react";
-import { Dropbox } from "dropbox";
-export let dbx = new Dropbox({
-  accessToken: window.localStorage.getItem("token") || null,
-  clientId: "qwcieudyqiph2un",
-  fetch
-});
-export function FetchPath(cb, path) {
+export function FetchPath(cb, path, dbx) {
   let tempResponse;
   dbx
-    .filesListFolder({ path })
+    .filesListFolder({ path: path === "/" ? path.replace("/", "") : path })
     .then((res) => {
       return res.entries;
     })
@@ -24,7 +18,6 @@ export function FetchPath(cb, path) {
             }))
         })
         .then((res) => {
-          //setThumbnailRes(res.entries);
           const data = tempResponse.map((file) => {
             if (file[".tag"] !== "folder") {
               return {

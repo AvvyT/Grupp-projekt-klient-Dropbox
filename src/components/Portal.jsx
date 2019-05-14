@@ -10,6 +10,7 @@ const Portal = ({ children }) => {
     return () => {
       portalRoot.removeChild(el);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
   return ReactDOM.createPortal(children, el);
 };

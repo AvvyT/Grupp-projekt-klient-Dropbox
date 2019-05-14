@@ -1,27 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./css/main.module.css";
 import { Link } from "react-router-dom";
+
 const Options = ({
   downloadFile,
   file,
   setModalDate,
   setMoveToggle,
   setDeleteToggle,
+  ToggleNameChanger,
   moveOn,
   deleteOn,
   location,
   setCopyToggle,
-  CopyOn
+  CopyOn,
+  nameOn
 }) => {
   const [listOn, setListToggle] = useState(false);
   const List = useRef();
   OnClickOutside(List, setListToggle);
   return (
     <>
-      <div onClick={() => setListToggle(!listOn)} className="listToggleDiv">
-        <span>
+      <div onClick={() => setListToggle(!listOn)} className="listToggler">
+        <span className="listToggler">
           <svg
-            className="listToggleSpan"
+            className="listToggler"
             focusable="false"
             width="32"
             height="32"
@@ -40,9 +43,12 @@ const Options = ({
       </div>
       {listOn && (
         <ul ref={List} className={style.list}>
-          {file[".tag"] !== "folder" && (
-            <li onClick={() => downloadFile(file.id)}>Download</li>
-          )}
+          <li
+            onClick={() => downloadFile(file.id, file.name, file[".tag"])}
+            className="listToggler"
+          >
+            Download
+          </li>
           <li
             onClick={() => {
               setModalDate({
@@ -88,6 +94,19 @@ const Options = ({
               setModalDate({
                 id: file.id,
                 name: file.name,
+                from_path: file.path_lower
+              });
+              ToggleNameChanger(!nameOn);
+              setListToggle(!listOn);
+            }}
+          >
+            Rename
+          </li>
+          <li
+            onClick={() => {
+              setModalDate({
+                id: file.id,
+                name: file.name,
                 file: file
               });
               setDeleteToggle(!deleteOn);
@@ -106,9 +125,8 @@ function OnClickOutside(ref, handler) {
     const listener = (event) => {
       if (
         !ref.current ||
-        ref.current.contains(event.target) ||
-        event.target.className === "listToggleDiv" ||
-        event.target.className === "listToggleSpan"
+        !ref.current.contains(event.target) ||
+        event.target.className !== "listToggler"
       )
         return;
       handler();

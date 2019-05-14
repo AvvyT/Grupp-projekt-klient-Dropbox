@@ -1,11 +1,17 @@
-import React, { useState } from "react";
-import { dbx } from "./functions";
+import React, { useState, useContext } from "react";
 import styles from "./css/main.module.css";
 
-const Search = () => {
-  const [searchWord, updateSearchWord] = useState('');
+import { DataContext } from "../store";
+import { Dropbox } from "dropbox";
 
-  // En användare ska kunna söka efter filer och kataloger
+const Search = () => {
+  const [searchWord, updateSearchWord] = useState("");
+  const { dispatch } = useContext(DataContext);
+  let dbx = new Dropbox({
+    accessToken: window.localStorage.getItem("token"),
+    clientId: "qwcieudyqiph2un",
+    fetch
+  });
   const searchFileOrFolder = () => {
     console.log(searchWord);
 
@@ -18,20 +24,26 @@ const Search = () => {
     dbx.filesSearch({
       path: path, query: searchWord, start: 0, max_results: 10, mode: { '.tag': 'filename_and_content' }
     })
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        const data = res.matches.map((a) => a.metadata);
+        searchWord &&
+          dispatch({
+            type: "FETCH_DATA",
+            data,
+            searchActive: true
+          });
       })
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     searchFileOrFolder();
-    updateSearchWord('');
-  }
+    updateSearchWord("");
+  };
 
   return (
     <form className={styles.fromStyle} onSubmit={handleSubmit}>
@@ -41,9 +53,11 @@ const Search = () => {
           updateSearchWord(e.target.value);
           // console.log(searchWord.length);
         }} />
-      <input type='submit' className={styles.uploadButtonStyle} value='Search' />
+      <button type="submit" className={styles.uploadButtonStyle}>
+        <span>&#9906;</span>
+      </button>
     </form>
   );
-}
+};
 
 export default Search;
