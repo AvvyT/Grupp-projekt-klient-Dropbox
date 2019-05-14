@@ -38,7 +38,7 @@ const FilesTable = ({
     }
   };
   const downloadFile = (id, name, type) => {
-    console.log("start");
+    console.log("d start");
     setToggleDownload(true);
     setDownloadStatus(false);
     if (type === "file") {

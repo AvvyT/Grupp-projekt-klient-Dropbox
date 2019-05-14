@@ -140,7 +140,13 @@ const Upload = ({ location }) => {
           />
           <span> Upload Files</span>
         </label>
-        <button onClick={() => setToggle(!on)} className={style.buttonStyle}>
+        <button
+          onClick={() => {
+            setToggle(!on);
+            dispatch({ type: "CREATE_FOLDER_ON" });
+          }}
+          className={style.buttonStyle}
+        >
           New folder
         </button>
       </div>

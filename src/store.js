@@ -1,10 +1,14 @@
 import { createContext } from "react";
 //
 
-export const DataContext = createContext({});
+export const DataContext = createContext({ createFolder: false });
 export const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_DATA":
+      if (state.searchActive) {
+        return state;
+      }
+
       return {
         ...state,
         files: action.data,
@@ -35,6 +39,16 @@ export const reducer = (state, action) => {
       return {
         ...state,
         searchActive: false
+      };
+    case "CREATE_FOLDER_ON":
+      return {
+        ...state,
+        createFolder: true
+      };
+    case "CREATE_FOLDER_OF":
+      return {
+        ...state,
+        createFolder: false
       };
     default:
       return state;

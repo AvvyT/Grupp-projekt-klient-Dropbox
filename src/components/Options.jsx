@@ -45,7 +45,7 @@ const Options = ({
         <ul ref={List} className={style.list}>
           <li
             onClick={() => downloadFile(file.id, file.name, file[".tag"])}
-            className="listToggler"
+            // className="listToggler"
           >
             Download
           </li>

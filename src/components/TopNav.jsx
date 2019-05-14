@@ -28,7 +28,6 @@ const TopNav = ({ history, location }) => {
         all: res.allocation.allocated,
         used: res.used
       });
-      console.log((res.used / res.allocation.allocated) * 100);
     });
   }, []);
 
@@ -38,7 +37,7 @@ const TopNav = ({ history, location }) => {
         <button onClick={() => history.goBack()}>
           <span>&#8592;</span>
         </button>
-        <Breadcrumbs/>
+        <Breadcrumbs />
       </div>
       <div className={style.topNavLeft}>
         <Search />
