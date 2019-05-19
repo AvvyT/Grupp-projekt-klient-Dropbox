@@ -26,7 +26,7 @@ const Main = ({ location, history }) => {
   );
 
   const intervalRef = useRef(null);
-  console.log(state.createFolder);
+  //console.log(state.createFolder);
   useEffect(() => {
     if (!searchActive && !createFolder) {
       if (intervalRef.current) {
