@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Grupp-projekt-klient-Dropbox/static/css/main.48eda2be.chunk.css",
-    "main.js": "/Grupp-projekt-klient-Dropbox/static/js/main.5cd60a05.chunk.js",
-    "main.js.map": "/Grupp-projekt-klient-Dropbox/static/js/main.5cd60a05.chunk.js.map",
-    "runtime~main.js": "/Grupp-projekt-klient-Dropbox/static/js/runtime~main.d878ce96.js",
-    "runtime~main.js.map": "/Grupp-projekt-klient-Dropbox/static/js/runtime~main.d878ce96.js.map",
-    "static/js/2.0aa216e0.chunk.js": "/Grupp-projekt-klient-Dropbox/static/js/2.0aa216e0.chunk.js",
-    "static/js/2.0aa216e0.chunk.js.map": "/Grupp-projekt-klient-Dropbox/static/js/2.0aa216e0.chunk.js.map",
-    "index.html": "/Grupp-projekt-klient-Dropbox/index.html",
-    "precache-manifest.ee9736cea14c7a4b22d59febd03c3403.js": "/Grupp-projekt-klient-Dropbox/precache-manifest.ee9736cea14c7a4b22d59febd03c3403.js",
-    "service-worker.js": "/Grupp-projekt-klient-Dropbox/service-worker.js",
-    "static/css/main.48eda2be.chunk.css.map": "/Grupp-projekt-klient-Dropbox/static/css/main.48eda2be.chunk.css.map"
+    "main.css": "/mandatory-advanced-js5/static/css/main.48eda2be.chunk.css",
+    "main.js": "/mandatory-advanced-js5/static/js/main.b0fdbed4.chunk.js",
+    "main.js.map": "/mandatory-advanced-js5/static/js/main.b0fdbed4.chunk.js.map",
+    "runtime~main.js": "/mandatory-advanced-js5/static/js/runtime~main.d0f14806.js",
+    "runtime~main.js.map": "/mandatory-advanced-js5/static/js/runtime~main.d0f14806.js.map",
+    "static/js/2.0aa216e0.chunk.js": "/mandatory-advanced-js5/static/js/2.0aa216e0.chunk.js",
+    "static/js/2.0aa216e0.chunk.js.map": "/mandatory-advanced-js5/static/js/2.0aa216e0.chunk.js.map",
+    "index.html": "/mandatory-advanced-js5/index.html",
+    "precache-manifest.3af47a52e62dc668e1c7ce7a1b9b8575.js": "/mandatory-advanced-js5/precache-manifest.3af47a52e62dc668e1c7ce7a1b9b8575.js",
+    "service-worker.js": "/mandatory-advanced-js5/service-worker.js",
+    "static/css/main.48eda2be.chunk.css.map": "/mandatory-advanced-js5/static/css/main.48eda2be.chunk.css.map"
   }
 }
