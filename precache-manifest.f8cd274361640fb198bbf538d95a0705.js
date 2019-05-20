@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a7def7061342562dd7852f72338a6398",
+    "revision": "263c5420641c2c78e3fc148f9ce6e933",
     "url": "/Grupp-projekt-klient-Dropbox/index.html"
   },
   {
-    "revision": "3cfab96be223c2b7c400",
+    "revision": "925424668d3dbbb172ea",
     "url": "/Grupp-projekt-klient-Dropbox/static/css/main.48eda2be.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Grupp-projekt-klient-Dropbox/static/js/2.0aa216e0.chunk.js"
   },
   {
-    "revision": "3cfab96be223c2b7c400",
-    "url": "/Grupp-projekt-klient-Dropbox/static/js/main.76853c14.chunk.js"
+    "revision": "925424668d3dbbb172ea",
+    "url": "/Grupp-projekt-klient-Dropbox/static/js/main.5cd60a05.chunk.js"
   },
   {
     "revision": "d7f4972a56ce530b73b5",

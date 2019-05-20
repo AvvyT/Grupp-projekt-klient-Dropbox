@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.0/workbox-sw.js");
 
 importScripts(
-  "/Grupp-projekt-klient-Dropbox/precache-manifest.802c423f770628cdcac730b819b1b07c.js"
+  "/Grupp-projekt-klient-Dropbox/precache-manifest.f8cd274361640fb198bbf538d95a0705.js"
 );
 
 self.addEventListener('message', (event) => {
