@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "263c5420641c2c78e3fc148f9ce6e933",
+    "revision": "6ee1857a37e5770574d0642252a73ad5",
     "url": "/Grupp-projekt-klient-Dropbox/index.html"
   },
   {
