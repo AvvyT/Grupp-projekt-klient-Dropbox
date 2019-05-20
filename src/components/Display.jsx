@@ -19,10 +19,10 @@ const Display = (props) => {
   useEffect(() => {
     dbx = new Dropbox({
       accessToken: token,
-      clientId: "qwcieudyqiph2un",
+      clientId: "c86j2qdnv7amuq6",
       fetch
     });
-    const authUrl = dbx.getAuthenticationUrl("http://localhost:3000/callback/");
+    const authUrl = dbx.getAuthenticationUrl("https://avvyt.github.io/Grupp-projekt-klient-Dropbox/callback");
     if (!token) {
       connectButton.current.href = authUrl;
     }
