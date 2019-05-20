@@ -22,7 +22,7 @@ const Display = (props) => {
       clientId: "c86j2qdnv7amuq6",
       fetch
     });
-    const authUrl = dbx.getAuthenticationUrl("https://avvyt.github.io/Grupp-projekt-klient-Dropbox/callback");
+    const authUrl = dbx.getAuthenticationUrl("https://avvyt.github.io/mandatory-advanced-js5/callback");
     if (!token) {
       connectButton.current.href = authUrl;
     }
